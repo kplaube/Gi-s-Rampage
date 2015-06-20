@@ -1,17 +1,18 @@
 -----------------------------------------------------------------------------------------
 --
--- prologue.lua
+-- prologue-cutscene.lua
 --
 -----------------------------------------------------------------------------------------
 
 local composer = require( "composer" )
 local scene = composer.newScene()
 
-local function levelIntro( sceneGroup )
+---------------------------------------------------------------------------------
+function levelIntro( sceneGroup )
     local sceneTitleText = display.newText{
         font="PressStart2P",
         fontSize=16,
-        text="Prólogo",
+        text="Cutscene",
         x=display.contentWidth * 0.5,
         y=display.contentHeight * 0.5
     }
@@ -19,17 +20,10 @@ local function levelIntro( sceneGroup )
     sceneGroup:insert( sceneTitleText )
 end
 
-local function gotoNextLevel()
-    composer.gotoScene( "prologue-cutscene", "fade", 500 )
-end
-
----------------------------------------------------------------------------------
 function scene:create( event )
     local sceneGroup = self.view
 
     levelIntro( sceneGroup )
-
-    timer.performWithDelay( 2000, gotoNextLevel, 1 )
 end
 
 ---------------------------------------------------------------------------------
