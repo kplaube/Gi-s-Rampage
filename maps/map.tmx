@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="wedding" tilewidth="32" tileheight="32">
+  <image source="./tilesets/wedding.png" width="256" height="1248"/>
+ </tileset>
+ <layer name="basement" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyTZmBg0AFiLRKwNhBLArE0EJsAsREJ2BhJrw0QW5GArZH0sjEyMLCQiKmhlxXIZkLC2NQyoWGYXiYgZkTC2PQyoqkZqnoBvucK8g==
+  </data>
+ </layer>
+ <layer name="stairs" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFpABeRgYGbiTMgwVzo2FkvVxIGJteLjQ8VAEAMSUBQA==
+  </data>
+ </layer>
+ <layer name="windows" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAELmh8ZyxqkIE/EtsHSgdAaW8c6mAgHIkdgiYXjEPdKBj8AACUggNi
+  </data>
+ </layer>
+ <layer name="altar" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgcYAYO8ZdA/AqIX6OJH0RiL8Ch9yMQfwLiz2jqT5LoNlLVjwIGBgBBeQnh
+  </data>
+ </layer>
+ <layer name="benchs" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBjeoIICvQ3UcgQUbADihUC8CIgXA/FaNPn1eOR3APFKIF4FxKuBeCua3u145AfCXgD5Axut
+  </data>
+ </layer>
+</map>
