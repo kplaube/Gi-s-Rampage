@@ -6,30 +6,25 @@
 
 local composer = require( "composer" )
 local scene = composer.newScene()
-
-local function levelIntro( sceneGroup )
-    local sceneTitleText = display.newText{
-        font="PressStart2P",
-        fontSize=16,
-        text="Prólogo",
-        x=display.contentWidth * 0.5,
-        y=display.contentHeight * 0.5
-    }
-
-    sceneGroup:insert( sceneTitleText )
-end
-
-local function gotoNextLevel()
-    composer.gotoScene( "prologue-cutscene", "fade", 500 )
-end
+local dusk = require( "Dusk.Dusk" )
 
 ---------------------------------------------------------------------------------
+function levelIntro( sceneGroup )
+    local map = dusk.buildMap(
+        "maps/prologue.json",
+        display.contentWidth,
+        display.contentHeight
+    )
+    map.anchorX, map.anchorY = 0, 0
+    map.x, map.y = 0, 0
+
+    sceneGroup:insert( map )
+end
+
 function scene:create( event )
     local sceneGroup = self.view
 
     levelIntro( sceneGroup )
-
-    timer.performWithDelay( 2000, gotoNextLevel, 1 )
 end
 
 ---------------------------------------------------------------------------------

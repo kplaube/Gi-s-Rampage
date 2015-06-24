@@ -15,7 +15,7 @@ local backgroundMusic
 local backgroundMusicChannel
 
 local function onPlayBtnRelease()
-    composer.gotoScene( "prologue", "fade", 500 )
+    composer.gotoScene( "prologue-intro", "fade", 500 )
 end
 
 ---------------------------------------------------------------------------------
