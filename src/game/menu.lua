@@ -5,17 +5,16 @@
 -----------------------------------------------------------------------------------------
 
 local composer = require( "composer" )
-local scene = composer.newScene()
-
--- include Corona's "widget" library
 local widget = require( "widget" )
 
 local playBtn
 local backgroundMusic
 local backgroundMusicChannel
 
+local scene = composer.newScene()
+
 local function onPlayBtnRelease()
-    composer.gotoScene( "prologue-intro", "fade", 500 )
+    composer.gotoScene( "game.prologue-intro", "fade", 500 )
 end
 
 ---------------------------------------------------------------------------------

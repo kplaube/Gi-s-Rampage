@@ -7,10 +7,13 @@
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
 
-local Fiance = require( "characters.fiance" )
-local Giselli = require( "characters.giselli" )
-local Guest = require( "characters.wedding_guest" )
-local Priest = require( "characters.priest" )
+local backgroundMusic
+local backgroundMusicChannel
+
+local Fiance = require( "game.chars.fiance" )
+local Giselli = require( "game.chars.giselli" )
+local Guest = require( "game.chars.wedding_guest" )
+local Priest = require( "game.chars.priest" )
 
 local scene = composer.newScene()
 
@@ -88,6 +91,8 @@ function createLevel( sceneGroup )
     local gi = createGiselli( map )
     local guests = createGuests( map )
 
+    backgroundMusic = audio.loadStream( "musics/prologue.mp3" )
+
     sceneGroup:insert( map )
 end
 
@@ -99,9 +104,43 @@ function scene:create( event )
     createLevel( sceneGroup )
 end
 
+function scene:show( event )
+    if ( phase == "will" ) then
+        return
+    end
+
+    backgroundMusicChannel = audio.play( backgroundMusic, {
+        channel=1,
+        loops=-1
+    } )
+end
+
+function scene:hide( event )
+    local sceneGroup = self.view
+    local phase = event.phase
+
+    if phase == "will" then
+        audio.stop( backgroundMusicChannel )
+    end
+end
+
+function scene:destroy( event )
+    local sceneGroup = self.view
+
+    if backgroundMusic then
+        audio.dispose( backgroundMusic )
+    end
+
+    backgroundMusic = nil
+    backgroundMusicChannel = nil
+end
+
 ---------------------------------------------------------------------------------
 
 scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
 
 ---------------------------------------------------------------------------------
 
