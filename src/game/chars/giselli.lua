@@ -32,6 +32,11 @@ function Giselli.new()
         self:setFrame( 1 )
     end
 
+    function self:turnRight()
+        self:setSequence( "walking-right" )
+        self:setFrame( 1 )
+    end
+
     return self
 end
 

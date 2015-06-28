@@ -6,16 +6,34 @@
 
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
-
-local backgroundMusic
-local backgroundMusicChannel
-
+local TextDialog = require( "libs.dialog" )
 local Fiance = require( "game.chars.fiance" )
 local Giselli = require( "game.chars.giselli" )
 local Guest = require( "game.chars.wedding_guest" )
 local Priest = require( "game.chars.priest" )
 
+local backgroundMusic
+local backgroundMusicChannel
+local map
+local priest
+local fiance
+local gi
+local guests
+
 local scene = composer.newScene()
+local textDialog = TextDialog.new()
+local sceneDialogs = {
+    [1] = {
+        "Padre: Estamos todos aqui reunidos para celebrar a união de Giselli e Klaus. (pressione)",
+        "Convidados: Viva!!! (pressione)",
+        "Padre: Vamos para a parte do beijo... (pressione)"
+    }
+}
+
+function onFirstDialogEnd()
+    gi:turnRight()
+    fiance:turnLeft()
+end
 
 function createMap()
     local map = dusk.buildMap(
@@ -84,15 +102,17 @@ function createGuests( map )
 end
 
 function createLevel( sceneGroup )
-    local map = createMap()
-    local priest = createPriest( map )
-    local finance = createFiance( map )
-    local gi = createGiselli( map )
-    local guests = createGuests( map )
+    map = createMap()
+    priest = createPriest( map )
+    fiance = createFiance( map )
+    gi = createGiselli( map )
+    guests = createGuests( map )
 
     backgroundMusic = audio.loadStream( "musics/prologue.mp3" )
+    textDialog:setDialog( sceneDialogs[1], onFirstDialogEnd )
 
     sceneGroup:insert( map )
+    sceneGroup:insert( textDialog )
 end
 
 ---------------------------------------------------------------------------------
@@ -108,10 +128,12 @@ function scene:show( event )
         return
     end
 
-    backgroundMusicChannel = audio.play( backgroundMusic, {
-        channel=1,
-        loops=-1
-    } )
+    --backgroundMusicChannel = audio.play( backgroundMusic, {
+    --    channel=1,
+    --    loops=-1
+    --} )
+
+    timer.performWithDelay( 500, textDialog:startDialogClosure() )
 end
 
 function scene:hide( event )
@@ -132,6 +154,8 @@ function scene:destroy( event )
 
     backgroundMusic = nil
     backgroundMusicChannel = nil
+    sceneDialogs = nil
+    textDialog = nil
 end
 
 ---------------------------------------------------------------------------------
