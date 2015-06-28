@@ -20,7 +20,7 @@ local function levelIntro( sceneGroup )
 end
 
 local function gotoNextLevel()
-    composer.gotoScene( "game.prologue", "fade", 500 )
+    composer.gotoScene( "game.level6", "fade", 500 )
 end
 
 ---------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ function scene:create( event )
 
     levelIntro( sceneGroup )
 
-    --timer.performWithDelay( 2000, gotoNextLevel, 1 )
+    timer.performWithDelay( 2000, gotoNextLevel, 1 )
 end
 
 ---------------------------------------------------------------------------------
