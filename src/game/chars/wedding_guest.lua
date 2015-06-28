@@ -1,4 +1,5 @@
 local Guest = {
+    image = "images/characters/guests.png",
     imageSheetOption = {
         width = 32,
         height = 48,
@@ -10,17 +11,19 @@ local Guest = {
     imageSheet = nil,
     rect = nil
 }
-Guest.__index = Guest
 
 Guest.imageSheet = graphics.newImageSheet(
-    "images/characters/guests.png",
+    Guest.image,
     Guest.imageSheetOption
 )
 
 function Guest.new( frame )
-    local self = setmetatable( {}, Guest )
-
-    self.rect = display.newImageRect( self.imageSheet, frame, 32, 48 )
+    local self = display.newImageRect(
+        Guest.imageSheet,
+        frame,
+        Guest.imageSheetOption.width,
+        Guest.imageSheetOption.height
+    )
 
     return self
 end
@@ -33,11 +36,6 @@ function Guest.guestsFactory()
     end
 
     return guests
-end
-
-function Guest:move( position )
-    self.rect.x = position.x
-    self.rect.y = position.y
 end
 
 

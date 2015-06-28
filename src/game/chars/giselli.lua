@@ -1,4 +1,5 @@
 local Giselli = {
+    image = "images/characters/giselli.png",
     imageSheetOption = {
         width = 32,
         height = 48,
@@ -6,35 +7,32 @@ local Giselli = {
 
         sheetContentWidth = 128,
         sheetContentHeight = 192
+    },
+    sequenceData = {
+        { name="walking-down", frames={ 1, 2, 3, 4 }, loopCount = 0 },
+        { name="walking-left", frames={ 5, 6, 7, 8 }, loopCount = 0 },
+        { name="walking-right", frames={ 9, 10, 11, 12 }, loopCount = 0 },
+        { name="walking-up", frames={ 13, 14, 15, 16 }, loopCount = 0 }
     }
 }
-Giselli.__index = Giselli
 
 Giselli.imageSheet = graphics.newImageSheet(
-    "images/characters/giselli.png",
+    Giselli.image,
     Giselli.imageSheetOption
 )
 
 function Giselli.new()
-    local self = setmetatable( {}, Giselli )
+    local self = display.newSprite(
+        Giselli.imageSheet,
+        Giselli.sequenceData
+    )
 
-    self.rect = self:_getImage(1)
+    function self:turnUp()
+        self:setSequence( "walking-up" )
+        self:setFrame( 1 )
+    end
 
     return self
-end
-
-function Giselli:_getImage( frame )
-    return display.newImageRect( self.imageSheet, frame, 32, 48)
-end
-
-function Giselli:move( position )
-    self.rect.x = position.x
-    self.rect.y = position.y
-end
-
-function Giselli:turnUp()
-    self.rect:removeSelf()
-    self.rect = self:_getImage(13)
 end
 
 

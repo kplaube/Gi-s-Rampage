@@ -32,29 +32,29 @@ end
 
 function createGiselli( map )
     local gi = Giselli.new()
+    gi.x, gi.y = 227, 165
     gi:turnUp()
-    gi:move({ x=227, y=165 })
 
-    map.layer["altar"]:insert(gi.rect)
+    map.layer["altar"]:insert(gi)
 
     return gi
 end
 
 function createFiance( map )
     local fiance = Fiance.new()
+    fiance.x, fiance.y = 253, 165
     fiance:turnUp()
-    fiance:move({ x=253, y=165 })
 
-    map.layer["altar"]:insert(fiance.rect)
+    map.layer["altar"]:insert(fiance)
 
     return fiance
 end
 
 function createPriest( map )
     local priest = Priest.new()
-    priest:move({ x=240, y=130 })
+    priest.x, priest.y = 240, 130
 
-    map.layer["altar"]:insert(priest.rect)
+    map.layer["altar"]:insert(priest)
 end
 
 function createGuests( map )
@@ -75,10 +75,9 @@ function createGuests( map )
     for i=1, table.getn(guests) do
         local guest = guests[i]
         local position = guestsPosition[i]
+        guest.x, guest.y = position.x, position.y
 
-        map.layer["altar"]:insert(guest.rect)
-
-        guest:move( position )
+        map.layer["altar"]:insert(guest)
     end
 
     return guests
