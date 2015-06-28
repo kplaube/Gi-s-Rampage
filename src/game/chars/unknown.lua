@@ -1,12 +1,12 @@
-local Fiance = {
-    image = "images/characters/fiance.png",
+local Unknown = {
+    image = "images/characters/unknown.png",
     imageSheetOption = {
-        width = 32,
-        height = 48,
+        width = 96,
+        height = 96,
         numFrames = 16,
 
-        sheetContentWidth = 128,
-        sheetContentHeight = 192
+        sheetContentWidth = 384,
+        sheetContentHeight = 384
     },
     sequenceData = {
         { name="walking-down", frames={ 1, 2, 3, 4 }, loopCount = 0 },
@@ -16,19 +16,19 @@ local Fiance = {
     }
 }
 
-Fiance.imageSheet = graphics.newImageSheet(
-    Fiance.image,
-    Fiance.imageSheetOption
+Unknown.imageSheet = graphics.newImageSheet(
+    Unknown.image,
+    Unknown.imageSheetOption
 )
 
-function Fiance.new()
+function Unknown.new()
     local self = display.newSprite(
-        Fiance.imageSheet,
-        Fiance.sequenceData
+        Unknown.imageSheet,
+        Unknown.sequenceData
     )
 
-    function self:turnUp()
-        self:setSequence( "walking-up" )
+    function self:turnDown()
+        self:setSequence( "walking-down" )
         self:setFrame( 1 )
     end
 
@@ -37,13 +37,8 @@ function Fiance.new()
         self:setFrame( 1 )
     end
 
-    function self:turnRight()
-        self:setSequence( "walking-right" )
-        self:setFrame( 1 )
-    end
-
     return self
 end
 
 
-return Fiance
+return Unknown

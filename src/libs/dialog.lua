@@ -6,7 +6,8 @@ local TextDialog = {
         direction="down"
     },
     fontType = native.systemFont,
-    fontSize = 14
+    fontSize = 14,
+    tapLabel = "pressione"
 }
 
 function TextDialog.new()
@@ -30,7 +31,7 @@ function TextDialog.new()
         end
 
         local textObject = display.newText( {
-            text = text,
+            text = text .. " (" .. TextDialog.tapLabel .. ")",
             x = 0, y = 0,
             font = TextDialog.fontType,
             fontSize = TextDialog.fontSize,
@@ -55,12 +56,6 @@ function TextDialog.new()
 
     function self:startDialog()
         self:show(self.dialogs[self.dialogIndex])
-    end
-
-    function self:startDialogClosure()
-        return function ()
-            self:startDialog()
-        end
     end
 
     function self:closeDialog()
