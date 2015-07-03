@@ -7,6 +7,7 @@
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
 local TextDialog = require( "libs.dialog" )
+local blink = require( "libs.blink" )
 local Fiance = require( "game.chars.fiance" )
 local Giselli = require( "game.chars.giselli" )
 local Guest = require( "game.chars.wedding_guest" )
@@ -152,30 +153,35 @@ function onFirstDialogEnds()
     gi:turnRight()
     fiance:turnLeft()
 
-    unknown.isVisible = true
+    blink.blinkScreen(function()
+        unknown.isVisible = true
 
-    textDialog = TextDialog.new()
-    textDialog:setDialog( sceneDialogs[2], onSecondDialogEnds )
+        textDialog = TextDialog.new()
+        textDialog:setDialog( sceneDialogs[2], onSecondDialogEnds )
 
-    timer.performWithDelay( 500, function ()
-        fiance:turnRight()
-        textDialog:startDialog()
-    end )
+        timer.performWithDelay( 500, function ()
+            fiance:turnRight()
+            textDialog:startDialog()
+        end )
+    end)
 end
 
 function onSecondDialogEnds()
     unknown:turnLeft()
 
     timer.performWithDelay( 500, function ()
-        fiance.isVisible = false
-        unknown.isVisible = false
 
-        gi:walkRight( 12, function ()
-            gi:turnUp()
+        blink.blinkScreen(function()
+            fiance.isVisible = false
+            unknown.isVisible = false
 
-            textDialog = TextDialog.new()
-            textDialog:setDialog( sceneDialogs[3], onThirdDialogEnds )
-            textDialog:startDialog()
+            gi:walkRight( 12, function ()
+                gi:turnUp()
+
+                textDialog = TextDialog.new()
+                textDialog:setDialog( sceneDialogs[3], onThirdDialogEnds )
+                textDialog:startDialog()
+            end )
         end )
     end )
 end
@@ -189,15 +195,17 @@ function onThirdDialogEnds()
         textDialog = TextDialog.new()
         textDialog:setDialog( sceneDialogs[4], onFourtyDialogEnds )
         textDialog:startDialog()
-    end)
+    end )
 end
 
 function onFourtyDialogEnds()
-    gi.isVisible = false
+    blink.blinkScreen(function()
+        gi.isVisible = false
 
-    textDialog = TextDialog.new()
-    textDialog:setDialog( sceneDialogs[5], onFiftyDialogEnds )
-    textDialog:startDialog()
+        textDialog = TextDialog.new()
+        textDialog:setDialog( sceneDialogs[5], onFiftyDialogEnds )
+        textDialog:startDialog()
+    end )
 end
 
 function onFiftyDialogEnds()
