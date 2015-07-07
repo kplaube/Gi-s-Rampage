@@ -7,8 +7,10 @@
 
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
+
 local TextDialog = require( "libs.dialog" )
 local blink = require( "libs.blink" )
+
 local Fiance = require( "game.chars.fiance" )
 local Giselli = require( "game.chars.giselli" )
 local Guest = require( "game.chars.wedding_guest" )

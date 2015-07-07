@@ -51,7 +51,7 @@ function Giselli.new()
         transition.moveTo( self, {
             x = self.x + deltaX,
             y = self.y,
-            time = 300,
+            time = 1000,
             onComplete = function ()
                 self:pause()
 

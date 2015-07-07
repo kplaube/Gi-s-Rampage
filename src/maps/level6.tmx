@@ -8,14 +8,19 @@
    eJwTZGBgEMSBJZHYzFgwLn2DRS+pmJZ6JSnAQ9G/AOqqCeU=
   </data>
  </layer>
- <layer name="on-ground" width="15" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjYMAOrHGIgwALELPikcenlweIecnUSwhQotcdSnOQodcNSgvgUeOEA0siqXEGYhcstBcODPMviPYGYh8stCIQ2yDRDEh6YLQNFnWKOMRsiNQLAPGADdA=
-  </data>
- </layer>
  <layer name="gates" width="15" height="10">
   <data encoding="base64" compression="zlib">
    eJxjYCAMlIhQQwu9WkCsjQUTA4yA2BgLHgX0AQABoAJ3
+  </data>
+ </layer>
+ <layer name="trees" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJy9zicOgEAQheG9IMVQDMVQLkExFEMxNAFclV+sQkBWwEs+M5mXmUwIkaNAKdRSoUaDVrHboceA8WFPgw4DppxNmLFgfehasOHAlbMdB86X/zz4CBC+7N4TIUaCVLH7ZbYfb10weRDE
+  </data>
+ </layer>
+ <layer name="upper-ground" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFyICDAr0CVHPF0AcAHVgAGQ==
   </data>
  </layer>
  <layer name="characters" width="15" height="10">
@@ -23,9 +28,14 @@
    eJxjYBgFo4D6AAACWAAB
   </data>
  </layer>
- <layer name="trees" width="15" height="10">
+ <layer name="on-ground" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJyVzskOgjAUQNH+oOhGdIO6UfkGFBxwABFnUUHFT/UuWJGmyXvJ2bz2NvWVUgFmmCvZrLHBFpGwTXHAESfDvQYsNNGqdndkeOBpaNuw0UG32n3wRYkfPEwwrbUOeuhjoHl7gSVCrGpnQ4wwhqtpY+yQYG/4v27OuOCKm7B9IUeBt7CVzh88MBsk
+   eJxjYMAOrHGIgwALELPikcenlweIecnUSwhQotedAr1uRKhxwoGRgTMQu2ChvXBgmH9BtDcQ+2ChFYHYBolmQNIDo22wqFPEIWZDpF4AwWgNnw==
+  </data>
+ </layer>
+ <layer name="upper-trees" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzly7ERgCAUBNHftkgimAAmAglIsW4LF7MzL1yzfTvgcMKL74WAiFt8EzIKHvF9UdHQxXdg4sMSX7UfGZcK0w==
   </data>
  </layer>
 </map>

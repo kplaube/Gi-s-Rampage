@@ -1,3 +1,4 @@
+-- luacheck: globals display graphics transition, ignore self
 local Fiance = {
     image = "images/characters/fiance.png",
     imageSheetOption = {
@@ -10,7 +11,7 @@ local Fiance = {
     },
     sequenceData = {
         { name="walking-down", frames={ 1, 2, 3, 4 }, loopCount = 0 },
-        { name="walking-left", frames={ 5, 6, 7, 8 }, loopCount = 0 },
+        { name="walking-left", frames={ 5, 6, 7, 8 }, loopCount = 0, time=300 },
         { name="walking-right", frames={ 9, 10, 11, 12 }, loopCount = 0 },
         { name="walking-up", frames={ 13, 14, 15, 16 }, loopCount = 0 }
     }
@@ -40,6 +41,22 @@ function Fiance.new()
     function self:turnRight()
         self:setSequence( "walking-right" )
         self:setFrame( 1 )
+    end
+
+    function self:walkLeft( deltaX, onComplete )
+        self:setSequence( "walking-left" )
+        self:play()
+
+        transition.moveTo( self, {
+          x = self.x - deltaX,
+          y = self.y,
+          time = 1000,
+          onComplete = function ()
+              self:pause()
+
+              onComplete()
+          end
+        } )
     end
 
     return self
