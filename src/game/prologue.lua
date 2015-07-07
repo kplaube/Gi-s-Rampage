@@ -169,17 +169,23 @@ function level:onSecondDialogEnds()
 end
 
 function level:onThirdDialogEnds()
-    self.gi:turnDown()
+    self.gi:addEventListener( "sprite", function( event )
+        if event.phase ~= "ended" then
+            return
+        end
 
-    timer.performWithDelay( 500, function ()
-        self.gi:turnUp()
+        timer.performWithDelay( 500, function ()
+            self.gi:turnUp()
 
-        self.textDialog = TextDialog.new()
-        self.textDialog:setDialog( sceneDialogs[4], function()
-            self:onFourtyDialogEnds()
+            self.textDialog = TextDialog.new()
+            self.textDialog:setDialog( sceneDialogs[4], function()
+                self:onFourtyDialogEnds()
+            end )
+            self.textDialog:startDialog()
         end )
-        self.textDialog:startDialog()
     end )
+
+    self.gi:enableLasers()
 end
 
 function level:onFourtyDialogEnds()
