@@ -33,6 +33,11 @@ function Fiance.new()
         self:setFrame( 1 )
     end
 
+    function self:turnDown()
+        self:setSequence( "walking-down" )
+        self:setFrame( 1 )
+    end
+
     function self:turnLeft()
         self:setSequence( "walking-left" )
         self:setFrame( 1 )
