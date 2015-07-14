@@ -13,6 +13,7 @@ local blink = require( "libs.blink" )
 
 local Giselli = require( "game.chars.giselli" )
 local Fiance = require( "game.chars.fiance" )
+local Fury = require( "game.chars.fury" )
 
 local level = display.newGroup()
 local scene = composer.newScene()
@@ -30,6 +31,13 @@ local sceneDialogs = {
         "Noivo: Achei a pessoa mais fantástica do mundo, aqui mesmo, nessa realidade.",
         "Noivo: Giselli Brasil dos Santos...",
         "Noivo: Você quer casar comigo?"
+    },
+    [3] = {
+        "Fury: Finalmente te encontrei, Giselli!",
+        "Fury: Testemunhei todas as suas proezas até aqui e realmente, (...)",
+        "Fury: Ou você é um ser místico ou pertence à outra dimensão.",
+        "Fury: ...",
+        "Fury: Você já ouviu falar da iniciativa Vingadores?"
     }
 }
 
@@ -66,6 +74,16 @@ function level:createFiance()
     self.fiance = fiance
 end
 
+function level:createFury()
+    local fury = Fury.new()
+    fury.x, fury.y = 240, 0
+    fury.isVisible = false
+
+    self.map.layer["characters"]:insert(fury)
+
+    self.fury = fury
+end
+
 function level:startLevel()
     timer.performWithDelay( 500, function()
         blink.blinkScreen(function()
@@ -99,6 +117,21 @@ function level:onFirstDialogEnds()
 end
 
 function level:onSecondDialogEnds()
+    self.fury.isVisible = true
+    self.fury:walkDown( 160, function()
+        self.gi:turnUp()
+        self.fiance:turnUp()
+
+        self.textDialog = TextDialog.new()
+        self.textDialog:setDialog( sceneDialogs[3], function()
+            self:onThirdDialogEnds()
+        end )
+        self.textDialog:startDialog()
+    end )
+end
+
+function level:onThirdDialogEnds()
+    composer.gotoScene( "game.end", "fade", 500 )
 end
 
 -----------------------------------------------------------------------------------------
@@ -107,6 +140,7 @@ function scene:create( event )
     local sceneGroup = self.view
 
     level:setMap()
+    level:createFury()
     level:createGiselli()
     level:createFiance()
 
