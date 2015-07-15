@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="19">
+ <tileset firstgid="1" name="sea-temple" tilewidth="32" tileheight="32">
+  <image source="../images/tilesets/sea-temple.png" width="256" height="1216"/>
+ </tileset>
+ <layer name="ground" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzjZmBg4CYTc0Exufq4iDQDm/pRPLgxADIRBf8=
+  </data>
+ </layer>
+ <layer name="on-ground" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyd0UcKwDAMRFHf/2apkAopBFI2KYfIz8KghYLLwNsIMRjZGHcGjJgwe+zblFixYcfhsS9z4sKNR8yXgDfYFMqsi+j565JJkCJDHthdoUaDNqBXu8l3z97RG3sDLfL/XukSIJU=
+  </data>
+ </layer>
+</map>

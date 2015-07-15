@@ -15,7 +15,7 @@ local backgroundMusicChannel
 local scene = composer.newScene()
 
 local function onPlayBtnRelease()
-    composer.gotoScene( "game.prologue-intro", "fade", 500 )
+    composer.gotoScene( "game.level1-intro", "fade", 500 )
 end
 
 ---------------------------------------------------------------------------------

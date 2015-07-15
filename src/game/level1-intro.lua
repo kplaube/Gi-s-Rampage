@@ -1,7 +1,7 @@
 -- luacheck: globals display timer, ignore event
 -----------------------------------------------------------------------------------------
 --
--- level6-intro.lua
+-- level1-intro.lua
 --
 -----------------------------------------------------------------------------------------
 
@@ -9,17 +9,18 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 local function gotoNextLevel()
-    composer.gotoScene( "game.level6", "fade", 500 )
+  composer.gotoScene( "game.level1", "fade", 500 )
 end
 
 ---------------------------------------------------------------------------------
+
 function scene:create( event )
     local sceneGroup = self.view
 
     local sceneTitleText = display.newText{
         font="PressStart2P",
         fontSize=16,
-        text="Level 6 - O pedido",
+        text="Level 1 - A praia",
         x=display.contentWidth * 0.5,
         y=display.contentHeight * 0.5
     }
