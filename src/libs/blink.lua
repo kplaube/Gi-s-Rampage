@@ -1,7 +1,9 @@
+-- luacheck: globals audio display transition
 local module = {}
 
 module.blinkScreen = function(callback)
     local rect = module._createRect()
+    module._playSound(rect)
     module._fadeIn(rect, function()
         module._fadeOut(rect, callback)
     end)
@@ -17,6 +19,11 @@ module._createRect = function()
     rect.alpha = 0
 
     return rect
+end
+
+module._playSound = function()
+    local teleportSound = audio.loadSound( "sounds/teleport.mp3" )
+    audio.play( teleportSound )
 end
 
 module._fadeIn = function(rect, callback)

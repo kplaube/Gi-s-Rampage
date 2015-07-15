@@ -190,6 +190,8 @@ function level:onThirdDialogEnds()
         end )
     end )
 
+    local fire = audio.loadSound( "sounds/small-fire.mp3" )
+    audio.play( fire )
     self.gi:enableLasers()
 end
 
