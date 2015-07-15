@@ -27,9 +27,9 @@ local sceneDialogs = {
         "Padre: Vamos para a parte do beijo..."
     },
     [2] = {
-        "Desconhecido: Este casamento abalará as estruturas de todos os multi-versos...",
-        "Desconhecido: ... de uma forma que nem todos os vídeos de gatinhos da internet, juntos, abalarão!",
-        "Desconhecido: Não posso permitir que isso aconteça!"
+        "Vilão: Este casamento abalará as estruturas de todos os multi-versos...",
+        "Vilão: ... de uma forma que nem todos os vídeos de gatinhos da internet, juntos, abalarão!",
+        "Vilão: Não posso permitir que isso aconteça!"
     },
     [3] = {
         "Padre: Giselli, minha filha!",
@@ -48,6 +48,9 @@ local sceneDialogs = {
 }
 
 function level:setMap()
+    display.setDefault("minTextureFilter", "nearest")
+    display.setDefault("magTextureFilter", "nearest")
+
     local map = dusk.buildMap(
         "maps/prologue.json",
         display.contentWidth,

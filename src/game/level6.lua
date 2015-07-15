@@ -42,14 +42,18 @@ local sceneDialogs = {
 }
 
 function level:setMap()
+    display.setDefault("minTextureFilter", "nearest")
+    display.setDefault("magTextureFilter", "nearest")
+
     local map = dusk.buildMap(
         "maps/level6.json",
-        display.contentWidth,
-        display.contentHeight
+        display.contentScaleX,
+        display.contentScaleY
     )
 
     map.anchorX, map.anchorY = 0, 0
     map.x, map.y = 0, 0
+
 
     self.map = map
 end

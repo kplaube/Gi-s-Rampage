@@ -1,3 +1,4 @@
+-- luacheck: globals display timer, ignore event
 -----------------------------------------------------------------------------------------
 --
 -- level6-intro.lua

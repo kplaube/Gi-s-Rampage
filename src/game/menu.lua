@@ -1,3 +1,4 @@
+-- luacheck: globals audio display, ignore event self
 -----------------------------------------------------------------------------------------
 --
 -- menu.lua
@@ -62,7 +63,6 @@ function scene:create( event )
 end
 
 function scene:hide( event )
-    local sceneGroup = self.view
     local phase = event.phase
 
     if phase == "will" then
@@ -71,8 +71,6 @@ function scene:hide( event )
 end
 
 function scene:destroy( event )
-    local sceneGroup = self.view
-
     if playBtn then
         playBtn:removeSelf()
     end

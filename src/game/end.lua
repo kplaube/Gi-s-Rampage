@@ -25,7 +25,7 @@ function level:startLevel()
 end
 
 function level:onDialogEnds()
-    composer.gotoScene( "game.menu", "fade", 500 )
+    composer.gotoScene( "game.menu", "fade", 1000 )
 end
 
 -----------------------------------------------------------------------------------------
