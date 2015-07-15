@@ -1,4 +1,4 @@
--- luacheck: globals blink display timer, ignore event self
+-- luacheck: globals audio blink display timer, ignore event self
 -----------------------------------------------------------------------------------------
 --
 -- level6.lua
@@ -148,6 +148,7 @@ function scene:create( event )
     level:createGiselli()
     level:createFiance()
 
+    level.backgroundMusic = audio.loadStream( "musics/level6.mp3" )
     level.textDialog = TextDialog.new()
     level.textDialog:setDialog( sceneDialogs[1], function()
         level:onFirstDialogEnds()
@@ -164,10 +165,29 @@ function scene:show( event )
         return
     end
 
+    level.backgroundMusicChannel = audio.play( level.backgroundMusic, {
+        channel=1,
+        loops=-1
+    } )
+
     level:startLevel()
 end
 
+function scene:hide( event )
+    local phase = event.phase
+
+    if phase == "will" then
+        audio.stop( level.backgroundMusicChannel )
+    end
+end
+
 function scene:destroy( event )
+    if level.backgroundMusic then
+        audio.dispose( level.backgroundMusic )
+    end
+
+    level.backgroundMusic = nil
+    level.backgroundMusicChannel = nil
     level.textDialog = nil
     sceneDialogs = nil
 end
@@ -176,6 +196,7 @@ end
 
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
 -----------------------------------------------------------------------------------------
