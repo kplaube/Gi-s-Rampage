@@ -1,4 +1,7 @@
--- luacheck: globals display graphics transition, ignore self
+-- luacheck: ignore self
+
+local Char = require( "game.chars.base" );
+
 local Fiance = {
     image = "images/characters/fiance.png",
     imageSheetOption = {
@@ -17,55 +20,9 @@ local Fiance = {
     }
 }
 
-Fiance.imageSheet = graphics.newImageSheet(
-    Fiance.image,
-    Fiance.imageSheetOption
-)
 
 function Fiance.new()
-    local self = display.newSprite(
-        Fiance.imageSheet,
-        Fiance.sequenceData
-    )
-
-    function self:turnUp()
-        self:setSequence( "walking-up" )
-        self:setFrame( 1 )
-    end
-
-    function self:turnDown()
-        self:setSequence( "walking-down" )
-        self:setFrame( 1 )
-    end
-
-    function self:turnLeft()
-        self:setSequence( "walking-left" )
-        self:setFrame( 1 )
-    end
-
-    function self:turnRight()
-        self:setSequence( "walking-right" )
-        self:setFrame( 1 )
-    end
-
-    function self:walkLeft( deltaX, onComplete )
-        self:setSequence( "walking-left" )
-        self:play()
-
-        transition.moveTo( self, {
-          x = self.x - deltaX,
-          y = self.y,
-          time = 1000,
-          onComplete = function ()
-              self:pause()
-
-              onComplete()
-          end
-        } )
-    end
-
-    return self
+    return Char.new(Fiance)
 end
-
 
 return Fiance

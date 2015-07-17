@@ -1,4 +1,7 @@
--- luacheck: globals audio display graphics, ignore self transition
+-- luacheck: ignore self
+
+local Char = require( "game.chars.base" );
+
 local Giselli = {
     image = "images/characters/giselli.png",
     imageSheetOption = {
@@ -18,47 +21,8 @@ local Giselli = {
     }
 }
 
-Giselli.imageSheet = graphics.newImageSheet(
-    Giselli.image,
-    Giselli.imageSheetOption
-)
-
 function Giselli.new()
-    local self = display.newSprite(
-        Giselli.imageSheet,
-        Giselli.sequenceData
-    )
-
-    function self:turnDown()
-        self:setSequence( "walking-down" )
-        self:setFrame( 1 )
-    end
-
-    function self:turnRight()
-        self:setSequence( "walking-right" )
-        self:setFrame( 1 )
-    end
-
-    function self:turnUp()
-        self:setSequence( "walking-up" )
-        self:setFrame( 1 )
-    end
-
-    function self:walkRight( deltaX, onComplete )
-        self:setSequence( "walking-right" )
-        self:play()
-
-        transition.moveTo( self, {
-            x = self.x + deltaX,
-            y = self.y,
-            time = 1000,
-            onComplete = function ()
-                self:pause()
-
-                onComplete()
-            end
-        } )
-    end
+    local self = Char.new(Giselli)
 
     function self:enableLasers()
         self:setSequence( "lasers" )

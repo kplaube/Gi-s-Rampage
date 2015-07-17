@@ -2,8 +2,8 @@
 
 local Char = require( "game.chars.base" );
 
-local Fury = {
-    image = "images/characters/fury.png",
+local Guardian1 = {
+    image = "images/characters/guardian1.png",
     imageSheetOption = {
         width = 32,
         height = 48,
@@ -20,8 +20,8 @@ local Fury = {
     }
 }
 
-function Fury.new()
-    return Char.new(Fury)
+function Guardian1.new()
+    return Char.new(Guardian1)
 end
 
-return Fury
+return Guardian1
