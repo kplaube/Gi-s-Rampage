@@ -1,3 +1,4 @@
+-- luacheck: globals display native, ignore self
 local TextDialog = {
     background = {
         type = "gradient",
