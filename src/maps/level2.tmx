@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="bar" tilewidth="32" tileheight="32">
+  <image source="../images/tilesets/bar.png" width="256" height="1600"/>
+ </tileset>
+ <layer name="ground" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzjZ2Bg4CMT85OhhweLXnY8mJC9I00vPeKIGnoBd6wHSA==
+  </data>
+ </layer>
+ <layer name="wall" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJwTZGBgECIBCwNxBCMDgwSQlgRiKRKwNBAnAPUqMIyC4Q4AoQQDLw==
+  </data>
+ </layer>
+ <layer name="tables" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAcbATiTTjktgDxVjx6dwLxLhxye4B4LxX1Fg6QvcjgIBAfAuLDWPARID6KR+9JID4FxKex4DNAfBaP3otAfAmIL2PBV4D4Kpr6QgbKAAABrCTI
+  </data>
+ </layer>
+ <layer name="kitchen" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAEP4H4FxZxYgAjIwMDExD/BrL5GUnTywlUzwXEwkAsTqLef2g0KYCNEZUmBfAxotKjAAIAQMsFbQ==
+  </data>
+ </layer>
+ <layer name="decoration" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBg2M2AAC0MqACZ78SIKicD5U9nwA9mYBFTger9AsRP8ej1IWD2eQLy+AA+e0GgCoc4yL/X8ehD9+88JPZjAnYaE5CH2R8BZXtD6VAs9g4kAACKUg2s
+  </data>
+ </layer>
+ <layer name="kitchen-decoration" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAekGVEsN+TqFcVSe93MuzeB6XfkaFXCGr3WzL0jgLsAAD5CgTX
+  </data>
+ </layer>
+ <layer name="characters" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4D6AAACWAAB
+  </data>
+ </layer>
+ <layer name="chairs" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg4UE2kuiokdjEF9hVB6dsUmEEJIMe/lAD0sCoiQGNTSy4AABZKBlg=
+  </data>
+ </layer>
+</map>
