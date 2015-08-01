@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="city-1" tilewidth="32" tileheight="32">
+  <image source="../images/tilesets/city-1.png" width="256" height="1600"/>
+ </tileset>
+ <tileset firstgid="401" name="city-2" tilewidth="32" tileheight="32">
+  <image source="../images/tilesets/city-2.png" width="256" height="1600"/>
+ </tileset>
+ <layer name="ground" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJz7xMjA8AkHFmPALQeTR8f41FNLLyWYkYmBgQmImZlIF+cEYi4g5gbiX4wITIw4Nv8OdiwIdLcQEAsD8StGBCZGHAC+pkWu
+  </data>
+ </layer>
+ <layer name="walls" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAf3ATiSEYGhiggjgbi20A+FzMDAzczRO4WDgxS9xCIE4F6koA4GYgfA/lCQH3CzBC5RzjwY6jdmUA9WUCczUiBB0YBzQAACKAVGg==
+  </data>
+ </layer>
+ <layer name="tiles" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzTZWRg0CUTj4JRgAsAAAhbArM=
+  </data>
+ </layer>
+ <layer name="windows" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAdiGGE0F+ZUPmjYPgDAFA1AbI=
+  </data>
+ </layer>
+ <layer name="window decoration" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAdYGFGsL8xIfiTmMg3cxYFekcB/QAAGJACNw==
+  </data>
+ </layer>
+ <layer name="ground decoration" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhaIJKJfL2JQL0sQMwKxGxA/JuAWb/R1PMAMS8Q8wExMzMDAyMzRN08ILYGitlAzWNihsgjqx8oIAm0WwqIpZlIF1cEYiUgVkZTQ4w4ABE+Bqs=
+  </data>
+ </layer>
+ <layer name="characters" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4D6AAACWAAB
+  </data>
+ </layer>
+ <layer name="first plan ground decoration" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgwk8Y2RgeA7ELxhJ1/sOqOc9EH8gQy8IfCdTHwj8R9MLAO9tB4E=
+  </data>
+ </layer>
+</map>
