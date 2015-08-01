@@ -39,7 +39,7 @@ function Char.new(options)
         transition.moveTo( self, {
           x = self.x - deltaX,
           y = self.y,
-          time = 1000,
+          time = 2000,
           onComplete = function ()
               self:pause()
 
@@ -55,7 +55,7 @@ function Char.new(options)
         transition.moveTo( self, {
             x = self.x + deltaX,
             y = self.y,
-            time = 1000,
+            time = 2000,
             onComplete = function ()
                 self:pause()
 

@@ -15,6 +15,7 @@ local StartLevel = require( "libs.start-level" )
 local Giselli = require( "game.chars.giselli" )
 local Guardian = require(  "game.chars.guardian4" )
 local Priest = require( "game.chars.priest" )
+local Politic = require( "game.chars.politic" )
 
 local scene = composer.newScene()
 local level = display.newGroup()
@@ -31,6 +32,13 @@ level.sceneDialogs = {
     },
     [2] = {
         "Padre: Minha filha, pelos poderes a mim investidos, eu permito o uso de raios laser."
+    },
+    [3] = {
+        "Guardião: Muito bem! Até parece que você já fez isso antes...",
+        "Guardião: Por gratidão te darei essa habilidade.",
+        "Giselli aprendeu a Constituição Federal.",
+        "Guardião: Muito obrigado, e boa sorte.",
+        "Giselli ensina ao Guardião sobre a CLT, e lança a sua candidatura a prefeita."
     }
 }
 
@@ -80,7 +88,26 @@ function level:createPriest()
 end
 
 function level:createPolitics()
+    local positions = {
+        {16, 192},
+        {16, 224},
+        {16, 256},
+        {460, 192},
+        {460, 224},
+        {460, 256},
+    }
+    local politic
+    level.politics = {}
 
+    for i=1, table.getn(positions) do
+        politic = Politic.new(i)
+        politic.x = positions[i][1]
+        politic.y = positions[i][2]
+        politic:move()
+
+        table.insert(level.politics, politic)
+        self.map.layer["characters"]:insert(politic)
+    end
 end
 
 function level:setDialog( dialog, callback )
@@ -132,9 +159,66 @@ function level.onSecondDialogEnds()
 end
 
 function level.gameplayStart()
+    level.politicsDead = 0
+
+    level.map:addEventListener( "tap" , level.onMapTap )
+
+    for i=1, table.getn(level.politics) do
+        local politic = level.politics[i]
+        politic:addEventListener( "tap", level.onPoliticTap )
+    end
+end
+
+function level.onMapTap( event )
+    level.gi:enableLasers()
+    audio.play( level.shooting )
+end
+
+function level.onPoliticTap( event )
+    event.target:stopMoving()
+
+    timer.performWithDelay( 250, function()
+        event.target:die()
+        level.politicsDead = level.politicsDead + 1
+        audio.play( level.rightAnswerSound )
+
+        if level.politicsDead == table.getn(level.politics) then
+            level:dispatchEvent{
+                name="endGameplay",
+                target=level
+            }
+        end
+    end )
 end
 
 function level.gameplayEnd()
+    level.map:removeEventListener( "tap", level.onMapTap )
+    level.gi:turnLeft()
+    level.guardian:turnRight()
+
+    audio.stop( level.backgroundMusicChannel )
+    level.victoryMusicChannel = audio.play( level.victoryMusic, {
+        channel=1,
+        loops=-1
+    } )
+
+    level:setDialog( level.sceneDialogs[3], level.onThirdDialogEnds )
+
+    timer.performWithDelay( 500, function()
+        level.textDialog:startDialog()
+    end )
+end
+
+function level.onThirdDialogEnds()
+    blink.blinkScreen(function()
+        level.gi.isVisible = false
+
+        timer.performWithDelay( 500, level.endLevel )
+    end )
+end
+
+function level.endLevel()
+    composer.gotoScene( "game.level6-intro", "fade", 500 )
 end
 
 -----------------------------------------------------------------------------------------
@@ -148,10 +232,16 @@ function scene:create( event )
     level:createPriest()
     level:createPolitics()
 
+    level.backgroundMusic = audio.loadStream( "musics/level4.mp3" )
+    level.victoryMusic = audio.loadStream( "musics/victory.mp3" )
+
     level:setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
     level.startText = StartLevel.new()
     level.startText:addEventListener( "hideText", level.gameplayStart )
     level:addEventListener( "endGameplay", level.gameplayEnd )
+
+    level.rightAnswerSound = audio.loadSound( "sounds/right.mp3" )
+    level.shooting = audio.loadSound( "sounds/small-fire.mp3" )
 
     sceneGroup:insert( level.map )
     sceneGroup:insert( level.textDialog )
@@ -165,20 +255,43 @@ function scene:show( event )
         return
     end
 
+    level.backgroundMusicChannel = audio.play( level.backgroundMusic, {
+        channel=1,
+        loops=-1
+    } )
+
     level:startLevel()
 end
 
+function scene:hide( event )
+    local phase = event.phase
+
+    if phase == "will" then
+        audio.stop( level.backgroundMusicChannel )
+    end
+end
+
 function scene:destroy( event )
+    if level.backgroundMusic then
+        audio.dispose( level.backgroundMusic )
+        audio.dispose( level.victoryMusic )
+    end
+
     level.map = nil
     level.gi = nil
     level.textDialog = nil
     level.startText = nil
+    level.backgroundMusic = nil
+    level.backgroundMusicChannel = nil
+    level.victoryMusic = nil
+    level.victoryMusicChannel = nil
 end
 
 -----------------------------------------------------------------------------------------
 
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
 -----------------------------------------------------------------------------------------

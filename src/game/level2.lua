@@ -307,6 +307,11 @@ function scene:hide( event )
 end
 
 function scene:destroy( event )
+    if level.backgroundMusic then
+        audio.dispose( level.backgroundMusic )
+        audio.dispose( level.victoryMusic )
+    end
+    
     level.backgroundMusic = nil
     level.backgroundMusicChannel = nil
     level.victoryMusic = nil
