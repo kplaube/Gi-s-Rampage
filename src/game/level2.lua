@@ -7,8 +7,7 @@
 
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
-
-local blink = require( "libs.blink" )
+local Teleport = require( "libs.teleport" )
 local TextDialog = require( "libs.dialog" )
 local StartLevel = require( "libs.start-level" )
 
@@ -42,10 +41,7 @@ level.sceneDialogs = {
     }
 }
 
-function level:createMap()
-    display.setDefault("minTextureFilter", "nearest")
-    display.setDefault("magTextureFilter", "nearest")
-
+function level.createMap()
     local map = dusk.buildMap(
         "maps/level2.json",
         display.contentScaleX,
@@ -55,29 +51,27 @@ function level:createMap()
     map.anchorX, map.anchorY = 0, 0
     map.x, map.y = 0, 0
 
-    self.map = map
+    level.map = map
 end
 
-function level:createGiselli()
+function level.createGiselli()
     local gi = Giselli.new()
     gi.x, gi.y = 430, 140
     gi.isVisible = false
 
-    self.map.layer["characters"]:insert(gi)
-
-    self.gi = gi
+    level.map.layer["characters"]:insert(gi)
+    level.gi = gi
 end
 
-function level:createGuardian()
+function level.createGuardian()
     local guardian = Guardian.new()
     guardian.x, guardian.y = 270, 135
 
-    self.map.layer["characters"]:insert(guardian)
-
-    self.guardian = guardian
+    level.map.layer["characters"]:insert(guardian)
+    level.guardian = guardian
 end
 
-function level:createCrowd()
+function level.createCrowd()
     local crowd = {
         {x=302, y=260},
         {x=238, y=260},
@@ -90,19 +84,19 @@ function level:createCrowd()
         person.y = crowd[i].y
         person:turnUp()
 
-        self.map.layer["characters"]:insert(person)
+        level.map.layer["characters"]:insert(person)
     end
 end
 
-function level:setDialog( dialog, callback )
-    self.textDialog = TextDialog.new()
-    self.textDialog:setDialog( dialog, callback )
+function level.setDialog( dialog, callback )
+    level.textDialog = TextDialog.new()
+    level.textDialog:setDialog( dialog, callback )
 end
 
-function level:startLevel()
+function level.startLevel()
     timer.performWithDelay( 500, function()
-        blink.blinkScreen( function()
-            self.gi.isVisible = true
+        level.teleport.inside( level.gi, function()
+            level.gi.isVisible = true
             timer.performWithDelay( 250, level.beforeFirstDialog )
         end )
     end )
@@ -120,8 +114,8 @@ function level.onFirstDialogEnds()
 end
 
 function level.gameplayStart()
-    level:createObjects()
-    level:startHud()
+    level.createObjects()
+    level.startHud()
 end
 
 function level.startHud()
@@ -166,7 +160,7 @@ function level.destroyHud()
     level.hud:remove()
 end
 
-function level:createObjects()
+function level.createObjects()
     local beverage = display.newImageRect(
         "images/objects/beverage.png",
         32, 32)
@@ -207,7 +201,7 @@ function level:createObjects()
     transition.blink( beverage, {time=1000})
 
     beverage:addEventListener( "tap", level.onBeverageTap )
-    self.map.layer["characters"]:insert(beverage)
+    level.map.layer["characters"]:insert(beverage)
 end
 
 function level.onBeverageTap( event )
@@ -239,7 +233,7 @@ function level.gameplayEnd( event )
     } )
 
     level.destroyHud()
-    level:setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
+    level.setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
 
     timer.performWithDelay( 500, function()
         level.textDialog:startDialog()
@@ -247,7 +241,7 @@ function level.gameplayEnd( event )
 end
 
 function level.onSecondDialogEnds()
-    blink.blinkScreen(function()
+    level.teleport.out( function()
         level.gi.isVisible = false
 
         timer.performWithDelay( 500, level.endLevel)
@@ -263,24 +257,25 @@ end
 function scene:create( event )
     local sceneGroup = self.view
 
-    level:createMap()
-    level:createGiselli()
-    level:createGuardian()
-    level:createCrowd()
+    level.createMap()
+    level.createGiselli()
+    level.createGuardian()
+    level.createCrowd()
 
     level.backgroundMusic = audio.loadStream( "musics/level2.mp3" )
     level.victoryMusic = audio.loadStream( "musics/victory.mp3" )
+    level.rightAnswerSound = audio.loadSound( "sounds/right.mp3" )
 
-    level:setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
+    level.setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
     level.startText = StartLevel.new()
     level.startText:addEventListener( "hideText", level.gameplayStart )
     level:addEventListener( "endGameplay", level.gameplayEnd )
-
-    level.rightAnswerSound = audio.loadSound( "sounds/right.mp3" )
+    level.teleport = Teleport.new()
 
     sceneGroup:insert( level.map )
     sceneGroup:insert( level.textDialog )
     sceneGroup:insert( level.startText )
+    sceneGroup:insert( level.teleport )
 end
 
 function scene:show( event )
@@ -295,7 +290,7 @@ function scene:show( event )
         loops=-1
     } )
 
-    level:startLevel()
+    level.startLevel()
 end
 
 function scene:hide( event )
@@ -307,21 +302,19 @@ function scene:hide( event )
 end
 
 function scene:destroy( event )
-    if level.backgroundMusic then
-        audio.dispose( level.backgroundMusic )
+    if level.victoryMusic then
         audio.dispose( level.victoryMusic )
     end
-    
-    level.backgroundMusic = nil
-    level.backgroundMusicChannel = nil
-    level.victoryMusic = nil
-    level.victoryMusicChannel = nil
-    level.map = nil
-    level.gi = nil
-    level.guardian = nil
-    level.textDialog = nil
-    level.startText = nil
-    level.sceneDialogs = nil
+
+    if level.backgroundMusic then
+        audio.dispose( level.backgroundMusic )
+    end
+
+    if level.rightAnswerSound then
+        audio.dispose( level.rightAnswerSound )
+    end
+
+    level = nil
 end
 
 -----------------------------------------------------------------------------------------
