@@ -1,4 +1,4 @@
--- luacheck: globals display timer, ignore event
+-- luacheck: globals display timer, ignore event self
 -----------------------------------------------------------------------------------------
 --
 -- level4-intro.lua
@@ -6,32 +6,38 @@
 -----------------------------------------------------------------------------------------
 
 local composer = require( "composer" )
+local StartLevel = require( "libs.start-level" )
+
+local level = {}
 local scene = composer.newScene()
 
-local function gotoNextLevel()
+function level.startLevel()
+    timer.performWithDelay( 2000, level.gotoNextLevel, 1 )
+end
+
+function level.gotoNextLevel()
     composer.gotoScene( "game.level4", "fade", 500 )
 end
 
 ---------------------------------------------------------------------------------
+
 function scene:create( event )
     local sceneGroup = self.view
 
-    local sceneTitleText = display.newText{
-        font="PressStart2P",
-        fontSize=16,
-        text="A eleição",
-        x=display.contentWidth * 0.5,
-        y=display.contentHeight * 0.5
-    }
+    level.sceneTitleText = StartLevel.newStartText( "A Eleição" )
+    level.startLevel()
 
-    sceneGroup:insert( sceneTitleText )
+    sceneGroup:insert(level.sceneTitleText)
+end
 
-    timer.performWithDelay( 2000, gotoNextLevel, 1 )
+function scene:destroy( event )
+    level = nil
 end
 
 ---------------------------------------------------------------------------------
 
 scene:addEventListener( "create", scene )
+scene:addEventListener( "destroy", scene )
 
 ---------------------------------------------------------------------------------
 

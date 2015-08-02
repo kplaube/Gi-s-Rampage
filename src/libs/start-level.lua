@@ -2,6 +2,16 @@
 
 local module = {}
 
+function module.newStartText( text )
+    return display.newText{
+        font="PressStart2P",
+        fontSize=16,
+        text=text,
+        x=display.contentWidth * 0.5,
+        y=display.contentHeight * 0.5
+    }
+end
+
 function module.new()
     local group = display.newGroup()
     group.anchorX = 0
