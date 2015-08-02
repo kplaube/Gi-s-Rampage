@@ -1,4 +1,4 @@
--- luacheck: globals audio blink display timer, ignore event self
+-- luacheck: globals audio display timer, ignore event self
 -----------------------------------------------------------------------------------------
 --
 -- level6.lua
@@ -7,17 +7,17 @@
 
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
-
 local TextDialog = require( "libs.dialog" )
-local blink = require( "libs.blink" )
+local Teleport = require( "libs.teleport" )
 
 local Giselli = require( "game.chars.giselli" )
 local Fiance = require( "game.chars.fiance" )
 local Fury = require( "game.chars.fury" )
 
-local level = display.newGroup()
+local level = {}
 local scene = composer.newScene()
-local sceneDialogs = {
+
+level.sceneDialogs = {
     [1] = {
         "Noivo: Endlich habe ich Dich gefunden!",
         "Noivo: Espero que tenha gostado da aventura… essa aventura que começou há 1 ano atrás."
@@ -41,10 +41,7 @@ local sceneDialogs = {
     }
 }
 
-function level:setMap()
-    display.setDefault("minTextureFilter", "nearest")
-    display.setDefault("magTextureFilter", "nearest")
-
+function level.createMap()
     local map = dusk.buildMap(
         "maps/level6.json",
         display.contentScaleX,
@@ -54,87 +51,80 @@ function level:setMap()
     map.anchorX, map.anchorY = 0, 0
     map.x, map.y = 0, 0
 
-
-    self.map = map
+    level.map = map
 end
 
-function level:createGiselli()
+function level.createGiselli()
     local gi = Giselli.new()
     gi.x, gi.y = 240, 190
     gi.isVisible = false
 
-    self.map.layer["characters"]:insert(gi)
-
-    self.gi = gi
+    level.map.layer["characters"]:insert(gi)
+    level.gi = gi
 end
 
-function level:createFiance()
+function level.createFiance()
     local fiance = Fiance.new()
     fiance.x, fiance.y = 480, 190
     fiance.isVisible = false
 
-    self.map.layer["characters"]:insert(fiance)
-
-    self.fiance = fiance
+    level.map.layer["characters"]:insert(fiance)
+    level.fiance = fiance
 end
 
-function level:createFury()
+function level.createFury()
     local fury = Fury.new()
     fury.x, fury.y = 240, 0
     fury.isVisible = false
 
-    self.map.layer["characters"]:insert(fury)
-
-    self.fury = fury
+    level.map.layer["characters"]:insert(fury)
+    level.fury = fury
 end
 
-function level:startLevel()
+function level.setDialog( dialog, callback )
+    level.textDialog = TextDialog.new()
+    level.textDialog:setDialog( dialog, callback )
+end
+
+function level.startLevel()
     timer.performWithDelay( 500, function()
-        blink.blinkScreen(function()
-            self.gi.isVisible = true
+        level.teleport.inside( level.gi, function()
+            level.gi.isVisible = true
 
-            timer.performWithDelay( 250, function()
-                self:beforeFirstDialog()
-            end )
+            timer.performWithDelay( 250, level.beforeFirstDialog )
         end )
     end )
 end
 
-function level:beforeFirstDialog()
-    self.gi:turnRight()
-    self.fiance.isVisible = true
-    self.fiance:walkLeft( 210, function()
-        self.textDialog:startDialog()
+function level.beforeFirstDialog()
+    level.gi:turnRight()
+    level.fiance.isVisible = true
+    level.fiance:walkLeft( 210, function()
+        level.textDialog:startDialog()
     end )
 end
 
-function level:onFirstDialogEnds()
-    self.fiance:turnDown()
+function level.onFirstDialogEnds()
+    level.fiance:turnDown()
 
     timer.performWithDelay( 500, function()
-        self.textDialog = TextDialog.new()
-        self.textDialog:setDialog( sceneDialogs[2], function()
-            self:onSecondDialogEnds()
-        end )
-        self.textDialog:startDialog()
+        level.setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
+        level.textDialog:startDialog()
     end )
 end
 
-function level:onSecondDialogEnds()
-    self.fury.isVisible = true
-    self.fury:walkDown( 160, function()
-        self.gi:turnUp()
-        self.fiance:turnUp()
+function level.onSecondDialogEnds()
+    level.fury.isVisible = true
+    level.fury:walkDown( 160, function()
+        level.gi:turnUp()
+        level.fiance:turnUp()
 
-        self.textDialog = TextDialog.new()
-        self.textDialog:setDialog( sceneDialogs[3], function()
-            self:onThirdDialogEnds()
-        end )
-        self.textDialog:startDialog()
+        level.setDialog( level.sceneDialogs[3], level.onThirdDialogEnds )
+        level.textDialog:startDialog()
     end )
 end
 
-function level:onThirdDialogEnds()
+function level.onThirdDialogEnds()
     composer.gotoScene( "game.end", "fade", 500 )
 end
 
@@ -143,19 +133,19 @@ end
 function scene:create( event )
     local sceneGroup = self.view
 
-    level:setMap()
-    level:createFury()
-    level:createGiselli()
-    level:createFiance()
+    level.createMap()
+    level.createFury()
+    level.createGiselli()
+    level.createFiance()
 
     level.backgroundMusic = audio.loadStream( "musics/level6.mp3" )
-    level.textDialog = TextDialog.new()
-    level.textDialog:setDialog( sceneDialogs[1], function()
-        level:onFirstDialogEnds()
-    end )
+
+    level.setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
+    level.teleport = Teleport.new()
 
     sceneGroup:insert( level.map )
     sceneGroup:insert( level.textDialog )
+    sceneGroup:insert( level.teleport )
 end
 
 function scene:show( event )
@@ -170,7 +160,7 @@ function scene:show( event )
         loops=-1
     } )
 
-    level:startLevel()
+    level.startLevel()
 end
 
 function scene:hide( event )
@@ -186,10 +176,7 @@ function scene:destroy( event )
         audio.dispose( level.backgroundMusic )
     end
 
-    level.backgroundMusic = nil
-    level.backgroundMusicChannel = nil
-    level.textDialog = nil
-    sceneDialogs = nil
+    level = nil
 end
 
 -----------------------------------------------------------------------------------------

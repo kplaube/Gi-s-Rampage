@@ -14,4 +14,4 @@ display.setDefault("minTextureFilter", "nearest")
 display.setDefault("magTextureFilter", "nearest")
 
 -- load menu screen
-composer.gotoScene( "game.level5-intro" )
+composer.gotoScene( "game.level6-intro" )

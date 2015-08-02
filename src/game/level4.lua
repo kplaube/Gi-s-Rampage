@@ -17,7 +17,7 @@ local Priest = require( "game.chars.priest" )
 local Politic = require( "game.chars.politic" )
 
 local scene = composer.newScene()
-local level = display.newGroup()
+local level = {}
 
 -----------------------------------------------------------------------------------------
 
