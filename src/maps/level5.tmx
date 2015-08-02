@@ -35,7 +35,7 @@
  </layer>
  <layer name="stairs" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFtAbryNS3FYi3kan3KBAfI1PvWSA+R6beq0B8DYgB5mYG6w==
+   eJxjYBgFgxlspUDvXgr0nqVA71UgBgAWnwMV
   </data>
  </layer>
  <layer name="characters" width="15" height="10">

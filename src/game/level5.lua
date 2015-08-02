@@ -7,8 +7,7 @@
 
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
-
-local blink = require( "libs.blink" )
+local Teleport = require( "libs.teleport" )
 local TextDialog = require( "libs.dialog" )
 local StartLevel = require( "libs.start-level" )
 
@@ -38,10 +37,7 @@ level.sceneDialogs = {
     }
 }
 
-function level:createMap()
-    display.setDefault("minTextureFilter", "nearest")
-    display.setDefault("magTextureFilter", "nearest")
-
+function level.createMap()
     local map = dusk.buildMap(
         "maps/level5.json",
         display.contentScaleX,
@@ -51,33 +47,40 @@ function level:createMap()
     map.anchorX, map.anchorY = 0, 0
     map.x, map.y = 0, 0
 
-    self.map = map
+    level.map = map
 end
 
-function level:createGuardian()
+function level.createGuardian()
     local guardian = Guardian.new()
     guardian.x, guardian.y = 28, 30
 
-    self.map.layer["characters"]:insert(guardian)
-    physics.addBody( guardian, "static", { density=3.0, friction=0.5, bounce=0.3 } )
+    level.map.layer["characters"]:insert(guardian)
+    physics.addBody( guardian, "static", {
+        density=3.0,
+        friction=0.5,
+        bounce=0.3
+    } )
 
-    self.guardian = guardian
+    level.guardian = guardian
 end
 
-function level:createGiselli()
+function level.createGiselli()
     local gi = Giselli.new()
     gi.x, gi.y = 28, 82
     gi.isVisible = false
 
-    physics.addBody( gi, "dynamic", { density=3.0, friction=0, bounce=0.3 } )
+    level.map.layer["characters"]:insert(gi)
+    physics.addBody( gi, "dynamic", {
+        density=3.0,
+        friction=0,
+        bounce=0.3
+    } )
     gi.isFixedRotation = true
 
-    self.map.layer["characters"]:insert(gi)
-
-    self.gi = gi
+    level.gi = gi
 end
 
-function level:createCrowd()
+function level.createCrowd()
     local crowd = {
         {x=64, y=32},
         {x=64, y=58},
@@ -130,6 +133,7 @@ function level:createCrowd()
         {x=416, y=288},
 
         {x=460, y=186},
+        {x=450, y=288},
     }
     local j = 1
 
@@ -152,24 +156,23 @@ function level:createCrowd()
             person:turnRight()
         end
 
+        level.map.layer["maze"]:insert(person)
         physics.addBody( person, "static", {
             friction=0,
             bounce=1,
         } )
-
-        self.map.layer["maze"]:insert(person)
     end
 end
 
-function level:setDialog( dialog, callback )
-    self.textDialog = TextDialog.new()
-    self.textDialog:setDialog( dialog, callback )
+function level.setDialog( dialog, callback )
+    level.textDialog = TextDialog.new()
+    level.textDialog:setDialog( dialog, callback )
 end
 
-function level:startLevel()
+function level.startLevel()
     timer.performWithDelay( 500, function()
-        blink.blinkScreen( function()
-            self.gi.isVisible = true
+        level.teleport.inside( level.gi, function()
+            level.gi.isVisible = true
             timer.performWithDelay( 250, level.beforeFirstDialog )
         end )
     end )
@@ -247,7 +250,7 @@ function level.gameplayEnd()
         loops=-1
     } )
 
-    level:setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
+    level.setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
 
     timer.performWithDelay( 500, function()
         level.textDialog:startDialog()
@@ -255,7 +258,7 @@ function level.gameplayEnd()
 end
 
 function level.onSecondDialogEnds()
-    blink.blinkScreen( function ()
+    level.teleport.out( function ()
         level.gi.isVisible = false
 
         timer.performWithDelay( 500, level.endLevel )
@@ -275,23 +278,23 @@ function scene:create( event )
     --physics.setDrawMode("hybrid")
     physics.setGravity( 0, 0 )
 
-    level:createMap()
-    level:createCrowd()
-    level:createGuardian()
-    level:createGiselli()
+    level.createMap()
+    level.createCrowd()
+    level.createGuardian()
+    level.createGiselli()
 
     level.backgroundMusic = audio.loadStream( "musics/level5.mp3" )
     level.victoryMusic = audio.loadStream( "musics/victory.mp3" )
 
-    level:setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
+    level.setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
     level.startText = StartLevel.new()
     level.startText:addEventListener( "hideText" , level.gameplayStart )
     level:addEventListener( "endGameplay", level.gameplayEnd )
+    level.teleport = Teleport.new()
 
     sceneGroup:insert( level.map )
-    sceneGroup:insert( level.guardian )
-    sceneGroup:insert( level.gi )
     sceneGroup:insert( level.textDialog )
+    sceneGroup:insert( level.startText )
 end
 
 function scene:show( event )
@@ -306,7 +309,7 @@ function scene:show( event )
         loops=-1
     } )
 
-    level:startLevel()
+    level.startLevel()
 end
 
 function scene:hide( event )
@@ -318,19 +321,15 @@ function scene:hide( event )
 end
 
 function scene:destroy( event )
-    if level.backgroundMusic then
-        audio.dispose( level.backgroundMusic )
+    if level.victoryMusic then
         audio.dispose( level.victoryMusic )
     end
 
-    level.map = nil
-    level.guardian = nil
-    level.gi = nil
-    level.textDialog = nil
-    level.backgroundMusic = nil
-    level.backgroundMusicChannel = nil
-    level.victoryMusic = nil
-    level.victoryMusicChannel = nil
+    if level.backgroundMusic then
+        audio.dispose( level.backgroundMusic )
+    end
+
+    level = nil
 end
 
 -----------------------------------------------------------------------------------------
