@@ -218,7 +218,7 @@ function level.onThirdDialogEnds()
 end
 
 function level.endLevel()
-    composer.gotoScene( "game.level6-intro", "fade", 500 )
+    composer.gotoScene( "game.level5-intro", "fade", 500 )
 end
 
 -----------------------------------------------------------------------------------------

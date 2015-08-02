@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="sewer" tilewidth="32" tileheight="32">
+  <image source="../images/tilesets/sewer.png" width="256" height="1504"/>
+ </tileset>
+ <layer name="ground" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBzFo5jKGACzTACX
+  </data>
+ </layer>
+ <layer name="under stairs" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFtAAzgXgSFM8kUe9KIOaE4pUk6l2NhgcKAACuIAZn
+  </data>
+ </layer>
+ <layer name="ground decoration" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAftNJZ3ygYOgAAFnYBCw==
+  </data>
+ </layer>
+ <layer name="stairs ground" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFtABNaHgo6KUmAACIZAYZ
+  </data>
+ </layer>
+ <layer name="stair behind maze" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF2MA6NP50EvRuo8DefRToPUamvrMU2HkVhzgAoCEFIg==
+  </data>
+ </layer>
+ <layer name="walls" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyTYWBgkCIDyzKMglGAGwAAdP0BjA==
+  </data>
+ </layer>
+ <layer name="maze" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4D6AAACWAAB
+  </data>
+ </layer>
+ <layer name="stairs" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFuMB0JEws2EqBfXsp0HsUSi9Hw8SCc0A8E4gnQfEsEvReA+JVQLwaikFsAE2WDT4=
+  </data>
+ </layer>
+ <layer name="wall decoration" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgcGCAAHSaF4c4jMYH+IhQMwqGLwAAlZEBnA==
+  </data>
+ </layer>
+ <layer name="characters" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4D6AAACWAAB
+  </data>
+ </layer>
+</map>

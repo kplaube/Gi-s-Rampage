@@ -24,11 +24,6 @@ function Crowd.new(number)
     Crowd.image = "images/characters/crowd" .. number .. ".png"
     local self = Char.new(Crowd)
 
-    function self:enableLasers()
-        self:setSequence( "lasers" )
-        self:play()
-    end
-
     return self
 end
 
