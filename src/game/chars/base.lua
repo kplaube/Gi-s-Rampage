@@ -60,9 +60,10 @@ function Char.new(options)
         transition.moveTo( self, {
           x = deltaX,
           y = deltaY,
-          time = 2000,
+          time = 1000,
           onComplete = function ()
               self:pause()
+              self:setSequence( self.sequence )
 
               callback()
           end

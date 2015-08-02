@@ -6,13 +6,12 @@
 -----------------------------------------------------------------------------------------
 
 local composer = require( "composer" )
-
 local TextDialog = require( "libs.dialog" )
 
-local level = display.newGroup()
+local level = {}
 local scene = composer.newScene()
 
-local sceneDialogs = {
+level.sceneDialogs = {
     [1] = {
         "Essa história não acaba aqui... Na verdade, ela está apenas começando.",
         "O que ela escolheu? Entre casar-se ou juntar-se aos Vingadores?",
@@ -20,11 +19,16 @@ local sceneDialogs = {
     }
 }
 
-function level:startLevel()
-    self.textDialog:startDialog()
+function level.setDialog( dialog, callback )
+    level.textDialog = TextDialog.new()
+    level.textDialog:setDialog( dialog, callback )
 end
 
-function level:onDialogEnds()
+function level.startLevel()
+    level.textDialog:startDialog()
+end
+
+function level.onDialogEnds()
     composer.gotoScene( "game.menu", "fade", 1000 )
 end
 
@@ -33,10 +37,7 @@ end
 function scene:create( event )
     local sceneGroup = self.view
 
-    level.textDialog = TextDialog.new()
-    level.textDialog:setDialog( sceneDialogs[1], function()
-        level:onDialogEnds()
-    end)
+    level.setDialog( level.sceneDialogs[1], level.onDialogEnds )
 
     sceneGroup:insert( level.textDialog )
 end
@@ -48,12 +49,11 @@ function scene:show( event )
         return
     end
 
-    level:startLevel()
+    level.startLevel()
 end
 
 function scene:destroy( event )
-    level.textDialog = nil
-    sceneDialogs = nil
+    level = nil
 end
 
 -----------------------------------------------------------------------------------------

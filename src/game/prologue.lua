@@ -7,7 +7,6 @@
 
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
-
 local TextDialog = require( "libs.dialog" )
 local blink = require( "libs.blink" )
 
@@ -17,10 +16,10 @@ local Guest = require( "game.chars.wedding_guest" )
 local Priest = require( "game.chars.priest" )
 local Unknown = require( "game.chars.unknown" )
 
-local level = display.newGroup()
-
+local level = {}
 local scene = composer.newScene()
-local sceneDialogs = {
+
+level.sceneDialogs = {
     [1] = {
         "Padre: Estamos todos aqui reunidos para celebrar a união de Giselli e Klaus.",
         "Convidados: Viva!!!",
@@ -47,10 +46,7 @@ local sceneDialogs = {
     }
 }
 
-function level:setMap()
-    display.setDefault("minTextureFilter", "nearest")
-    display.setDefault("magTextureFilter", "nearest")
-
+function level.createMap()
     local map = dusk.buildMap(
         "maps/prologue.json",
         display.contentWidth,
@@ -60,39 +56,39 @@ function level:setMap()
     map.anchorX, map.anchorY = 0, 0
     map.x, map.y = 0, 0
 
-    self.map = map
+    level.map = map
 end
 
-function level:createGiselli()
+function level.createGiselli()
     local gi = Giselli.new()
     gi.x, gi.y = 227, 165
     gi:turnUp()
 
-    self.map.layer["altar"]:insert(gi)
+    level.map.layer["altar"]:insert(gi)
 
-    self.gi = gi
+    level.gi = gi
 end
 
-function level:createFiance()
+function level.createFiance()
     local fiance = Fiance.new()
     fiance.x, fiance.y = 253, 165
     fiance:turnUp()
 
-    self.map.layer["altar"]:insert(fiance)
+    level.map.layer["altar"]:insert(fiance)
 
-    self.fiance = fiance
+    level.fiance = fiance
 end
 
-function level:createPriest()
+function level.createPriest()
     local priest = Priest.new()
     priest.x, priest.y = 240, 130
 
-    self.map.layer["altar"]:insert(priest)
+    level.map.layer["altar"]:insert(priest)
 
-    self.priest = priest
+    level.priest = priest
 end
 
-function level:createGuests()
+function level.createGuests()
     local guests = Guest.guestsFactory()
     local guestsPosition = {
         { x=80, y=210},
@@ -112,98 +108,89 @@ function level:createGuests()
         local position = guestsPosition[i]
         guest.x, guest.y = position.x, position.y
 
-        self.map.layer["altar"]:insert(guest)
+        level.map.layer["altar"]:insert(guest)
     end
 
-    self.guests = guests
+    level.guests = guests
 end
 
-function level:createUnknown()
+function level.createUnknown()
     local unknown = Unknown.new()
     unknown.x, unknown.y = 320, 140
     unknown.isVisible = false
 
-    self.map.layer["altar"]:insert(unknown)
+    level.map.layer["altar"]:insert(unknown)
 
-    self.unknown = unknown
+    level.unknown = unknown
 end
 
-function level:startLevel()
-    timer.performWithDelay( 500, function () self.textDialog:startDialog() end )
+function level.setDialog( dialog, callback )
+    level.textDialog = TextDialog.new()
+    level.textDialog:setDialog( dialog, callback )
 end
 
-function level:onFirstDialogEnds()
-    self.gi:turnRight()
-    self.fiance:turnLeft()
+function level.startLevel()
+    timer.performWithDelay( 500, function () level.textDialog:startDialog() end )
+end
+
+function level.onFirstDialogEnds()
+    level.gi:turnRight()
+    level.fiance:turnLeft()
 
     blink.blinkScreen(function()
-        self.unknown.isVisible = true
-
-        self.textDialog = TextDialog.new()
-        self.textDialog:setDialog( sceneDialogs[2], function()
-            self:onSecondDialogEnds()
-        end )
+        level.unknown.isVisible = true
+        level.setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
 
         timer.performWithDelay( 500, function ()
-            self.fiance:turnRight()
-            self.textDialog:startDialog()
+            level.fiance:turnRight()
+            level.textDialog:startDialog()
         end )
     end)
 end
 
-function level:onSecondDialogEnds()
-    self.unknown:turnLeft()
+function level.onSecondDialogEnds()
+    level.unknown:turnLeft()
 
     timer.performWithDelay( 500, function ()
 
         blink.blinkScreen(function()
-            self.fiance.isVisible = false
-            self.unknown.isVisible = false
+            level.fiance.isVisible = false
+            level.unknown.isVisible = false
 
-            self.gi:walkRight( 12, function ()
-                self.gi:turnUp()
+            level.gi:walkRight( 12, function ()
+                level.gi:turnUp()
 
-                self.textDialog = TextDialog.new()
-                self.textDialog:setDialog( sceneDialogs[3], function()
-                  level:onThirdDialogEnds()
-                end )
-                self.textDialog:startDialog()
+                level.setDialog( level.sceneDialogs[3], level.onThirdDialogEnds )
+                level.textDialog:startDialog()
             end )
         end )
     end )
 end
 
-function level:onThirdDialogEnds()
-    self.gi:addEventListener( "sprite", function( event )
+function level.onThirdDialogEnds()
+    level.gi:addEventListener( "sprite", function( event )
         if event.phase ~= "ended" then
             return
         end
 
         timer.performWithDelay( 500, function ()
-            self.gi:turnUp()
+            level.gi:turnUp()
 
-            self.textDialog = TextDialog.new()
-            self.textDialog:setDialog( sceneDialogs[4], function()
-                self:onFourtyDialogEnds()
-            end )
-            self.textDialog:startDialog()
+            level.setDialog( level.sceneDialogs[4], level.onFourtyDialogEnds )
+            level.textDialog:startDialog()
         end )
     end )
 
-    local fire = audio.loadSound( "sounds/small-fire.mp3" )
-    audio.play( fire )
-    self.gi:enableLasers()
+    audio.play( level.fireSound )
+    level.gi:enableLasers()
 end
 
-function level:onFourtyDialogEnds()
+function level.onFourtyDialogEnds()
     blink.blinkScreen(function()
-        self.gi.isVisible = false
+        level.gi.isVisible = false
 
-        self.textDialog = TextDialog.new()
-        self.textDialog:setDialog( sceneDialogs[5], function()
-            self.onFiftyDialogEnds()
-        end )
-        self.textDialog:startDialog()
+        level.setDialog( level.sceneDialogs[5], level.onFiftyDialogEnds )
+        level.textDialog:startDialog()
     end )
 end
 
@@ -216,18 +203,16 @@ end
 function scene:create( event )
     local sceneGroup = self.view
 
-    level:setMap()
-    level:createPriest()
-    level:createFiance()
-    level:createGiselli()
-    level:createGuests()
-    level:createUnknown()
+    level.createMap()
+    level.createPriest()
+    level.createFiance()
+    level.createGiselli()
+    level.createGuests()
+    level.createUnknown()
 
     level.backgroundMusic = audio.loadStream( "musics/prologue.mp3" )
-    level.textDialog = TextDialog.new()
-    level.textDialog:setDialog( sceneDialogs[1], function()
-        level:onFirstDialogEnds()
-    end)
+    level.fireSound = audio.loadSound( "sounds/small-fire.mp3" )
+    level.setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
 
     sceneGroup:insert( level.map )
     sceneGroup:insert( level.textDialog )
@@ -245,7 +230,7 @@ function scene:show( event )
         loops=-1
     } )
 
-    level:startLevel()
+    level.startLevel()
 end
 
 function scene:hide( event )
@@ -258,13 +243,11 @@ end
 
 function scene:destroy( event )
     if level.backgroundMusic then
+        audio.dispose( level.fireSound )
         audio.dispose( level.backgroundMusic )
     end
 
-    level.backgroundMusic = nil
-    level.backgroundMusicChannel = nil
-    level.textDialog = nil
-    sceneDialogs = nil
+    level = nil
 end
 
 ---------------------------------------------------------------------------------
