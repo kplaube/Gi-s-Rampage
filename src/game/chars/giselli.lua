@@ -13,10 +13,10 @@ local Giselli = {
         sheetContentHeight = 288
     },
     sequenceData = {
-        { name="walking-down", frames={ 1, 2, 3, 4 }, loopCount = 0 },
-        { name="walking-left", frames={ 5, 6, 7, 8 }, loopCount = 0 },
-        { name="walking-right", frames={ 9, 10, 11, 12 }, loopCount = 0, time=300 },
-        { name="walking-up", frames={ 13, 14, 15, 16 }, loopCount = 0 },
+        { name="walking-down", frames={ 1, 2, 3, 4 }, time=300 },
+        { name="walking-left", frames={ 5, 6, 7, 8 }, time=300 },
+        { name="walking-right", frames={ 9, 10, 11, 12 }, time=300 },
+        { name="walking-up", frames={ 13, 14, 15, 16 }, time=300 },
         { name="lasers", frames={ 17, 18, 19, 20, 21, 22, 23, 24 }, loopCount = 1, time=800 }
     }
 }

@@ -32,52 +32,46 @@ function Char.new(options)
         self:setFrame( 1 )
     end
 
-    function self:walkLeft( deltaX, onComplete )
+    function self:walkLeft( deltaX, callback )
         self:setSequence( "walking-left" )
         self:play()
+        self:move( self.x - deltaX, self.y, callback )
+    end
 
+    function self:walkRight( deltaX, callback )
+        self:setSequence( "walking-right" )
+        self:play()
+        self:move( self.x + deltaX, self.y, callback )
+    end
+
+    function self:walkDown( deltaY, callback )
+        self:setSequence( "walking-down" )
+        self:play()
+        self:move( self.x, self.y + deltaY, callback )
+    end
+
+    function self:walkUp( deltaY, callback )
+        self:setSequence( "walking-up" )
+        self:play()
+        self:move( self.x, self.y - deltaY, callback )
+    end
+
+    function self:move( deltaX, deltaY, callback )
         transition.moveTo( self, {
-          x = self.x - deltaX,
-          y = self.y,
+          x = deltaX,
+          y = deltaY,
           time = 2000,
           onComplete = function ()
               self:pause()
 
-              onComplete()
+              callback()
           end
         } )
     end
 
-    function self:walkRight( deltaX, onComplete )
-        self:setSequence( "walking-right" )
-        self:play()
-
-        transition.moveTo( self, {
-            x = self.x + deltaX,
-            y = self.y,
-            time = 2000,
-            onComplete = function ()
-                self:pause()
-
-                onComplete()
-            end
-        } )
-    end
-
-    function self:walkDown( deltaY, onComplete )
-        self:setSequence( "walking-down" )
-        self:play()
-
-        transition.moveTo( self, {
-          x = self.x,
-          y = self.y + deltaY,
-          time = 1000,
-          onComplete = function ()
-              self:pause()
-
-              onComplete()
-          end
-        } )
+    function self:stopMoving()
+        self:pause()
+        transition.cancel( self )
     end
 
     return self

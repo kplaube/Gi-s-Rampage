@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="4">
  <tileset firstgid="1" name="sewer" tilewidth="32" tileheight="32">
   <image source="../images/tilesets/sewer.png" width="256" height="1504"/>
  </tileset>
@@ -8,29 +8,24 @@
    eJxjZGBgYBzFo5jKGACzTACX
   </data>
  </layer>
- <layer name="under stairs" width="15" height="10">
+ <layer name="ground-decoration" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFtAAzgXgSFM8kUe9KIOaE4pUk6l2NhgcKAACuIAZn
+   eJxjYCAftNJAbhQMDwAAIIUBkA==
   </data>
  </layer>
- <layer name="ground decoration" width="15" height="10">
+ <layer name="walls-above" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYCAftNJZ3ygYOgAAFnYBCw==
+   eJyTYWBgkCIDyzCMglGAGwAAct0Biw==
   </data>
  </layer>
- <layer name="stairs ground" width="15" height="10">
+ <layer name="walls-decoration" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFtABNaHgo6KUmAACIZAYZ
+   eJwLYWBgCAXiMCB2YIAAGM2Lxken8QE+ItSMguELAFJTAls=
   </data>
  </layer>
- <layer name="stair behind maze" width="15" height="10">
+ <layer name="walls-sides" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF2MA6NP50EvRuo8DefRToPUamvrMU2HkVhzgAoCEFIg==
-  </data>
- </layer>
- <layer name="walls" width="15" height="10">
-  <data encoding="base64" compression="zlib">
-   eJyTYWBgkCIDyzKMglGAGwAAdP0BjA==
+   eJybx0AeWADE80b1jurFoRcAqGIMbQ==
   </data>
  </layer>
  <layer name="maze" width="15" height="10">
@@ -40,17 +35,12 @@
  </layer>
  <layer name="stairs" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuMB0JEws2EqBfXsp0HsUSi9Hw8SCc0A8E4gnQfEsEvReA+JVQLwaikFsAE2WDT4=
-  </data>
- </layer>
- <layer name="wall decoration" width="15" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjYGBgcGCAAHSaF4c4jMYH+IhQMwqGLwAAlZEBnA==
+   eJxjYBgFtAbryNS3FYi3kan3KBAfI1PvWSA+R6beq0B8DYgB5mYG6w==
   </data>
  </layer>
  <layer name="characters" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4D6AAACWAAB
+   eJxjYKAOWEAlc0bB8AAATGcAoQ==
   </data>
  </layer>
 </map>
