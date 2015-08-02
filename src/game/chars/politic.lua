@@ -35,16 +35,16 @@ function Politic.new(index)
     }
     local self = Char.new(politic)
 
-    function self:move()
+    function self:moveAround()
         if self.x < 400 then
             self:turnRight()
             self:walkRight( 450, function()
-                self:move()
+                self:moveAround()
             end )
         else
             self:turnLeft()
             self:walkLeft( 450, function()
-                self:move()
+                self:moveAround()
             end )
             return
         end

@@ -241,6 +241,12 @@ function level.gameplayEnd()
     level.guardian:turnRight()
     level.gi:turnLeft()
 
+    audio.stop( level.backgroundMusicChannel )
+    level.victoryMusicChannel = audio.play( level.victoryMusic, {
+        channel=1,
+        loops=-1
+    } )
+
     level:setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
 
     timer.performWithDelay( 500, function()
@@ -274,6 +280,9 @@ function scene:create( event )
     level:createGuardian()
     level:createGiselli()
 
+    level.backgroundMusic = audio.loadStream( "musics/level5.mp3" )
+    level.victoryMusic = audio.loadStream( "musics/victory.mp3" )
+
     level:setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
     level.startText = StartLevel.new()
     level.startText:addEventListener( "hideText" , level.gameplayStart )
@@ -292,20 +301,43 @@ function scene:show( event )
         return
     end
 
+    level.backgroundMusicChannel = audio.play( level.backgroundMusic, {
+        channel=1,
+        loops=-1
+    } )
+
     level:startLevel()
 end
 
+function scene:hide( event )
+    local phase = event.phase
+
+    if phase == "will" then
+        audio.stop( level.backgroundMusicChannel )
+    end
+end
+
 function scene:destroy( event )
+    if level.backgroundMusic then
+        audio.dispose( level.backgroundMusic )
+        audio.dispose( level.victoryMusic )
+    end
+
     level.map = nil
     level.guardian = nil
     level.gi = nil
     level.textDialog = nil
+    level.backgroundMusic = nil
+    level.backgroundMusicChannel = nil
+    level.victoryMusic = nil
+    level.victoryMusicChannel = nil
 end
 
 -----------------------------------------------------------------------------------------
 
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
 -----------------------------------------------------------------------------------------

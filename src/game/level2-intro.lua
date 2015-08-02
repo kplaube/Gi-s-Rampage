@@ -20,7 +20,7 @@ function scene:create( event )
     local sceneTitleText = display.newText{
         font="PressStart2P",
         fontSize=16,
-        text="Level 2 - O bar",
+        text="O bar",
         x=display.contentWidth * 0.5,
         y=display.contentHeight * 0.5
     }

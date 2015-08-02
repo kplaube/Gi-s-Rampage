@@ -20,7 +20,7 @@ function scene:create( event )
     local sceneTitleText = display.newText{
         font="PressStart2P",
         fontSize=16,
-        text="Level 1 - A praia",
+        text="A praia",
         x=display.contentWidth * 0.5,
         y=display.contentHeight * 0.5
     }

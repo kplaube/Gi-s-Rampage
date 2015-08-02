@@ -103,7 +103,7 @@ function level:createPolitics()
         politic = Politic.new(i)
         politic.x = positions[i][1]
         politic.y = positions[i][2]
-        politic:move()
+        politic:moveAround()
 
         table.insert(level.politics, politic)
         self.map.layer["characters"]:insert(politic)
