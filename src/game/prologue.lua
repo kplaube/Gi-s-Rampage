@@ -8,7 +8,7 @@
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
 local TextDialog = require( "libs.dialog" )
-local blink = require( "libs.blink" )
+local Teleport = require( "libs.teleport" )
 
 local Fiance = require( "game.chars.fiance" )
 local Giselli = require( "game.chars.giselli" )
@@ -137,7 +137,7 @@ function level.onFirstDialogEnds()
     level.gi:turnRight()
     level.fiance:turnLeft()
 
-    blink.blinkScreen(function()
+    level.teleport.inside( level.unknown, function()
         level.unknown.isVisible = true
         level.setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
 
@@ -145,24 +145,21 @@ function level.onFirstDialogEnds()
             level.fiance:turnRight()
             level.textDialog:startDialog()
         end )
-    end)
+    end )
 end
 
 function level.onSecondDialogEnds()
     level.unknown:turnLeft()
 
-    timer.performWithDelay( 500, function ()
+    level.teleport.out( function()
+        level.fiance.isVisible = false
+        level.unknown.isVisible = false
 
-        blink.blinkScreen(function()
-            level.fiance.isVisible = false
-            level.unknown.isVisible = false
+        level.gi:walkRight( 12, function ()
+            level.gi:turnUp()
 
-            level.gi:walkRight( 12, function ()
-                level.gi:turnUp()
-
-                level.setDialog( level.sceneDialogs[3], level.onThirdDialogEnds )
-                level.textDialog:startDialog()
-            end )
+            level.setDialog( level.sceneDialogs[3], level.onThirdDialogEnds )
+            level.textDialog:startDialog()
         end )
     end )
 end
@@ -186,7 +183,7 @@ function level.onThirdDialogEnds()
 end
 
 function level.onFourtyDialogEnds()
-    blink.blinkScreen(function()
+    level.teleport.out( function ()
         level.gi.isVisible = false
 
         level.setDialog( level.sceneDialogs[5], level.onFiftyDialogEnds )
@@ -213,9 +210,11 @@ function scene:create( event )
     level.backgroundMusic = audio.loadStream( "musics/prologue.mp3" )
     level.fireSound = audio.loadSound( "sounds/small-fire.mp3" )
     level.setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
+    level.teleport = Teleport.new()
 
     sceneGroup:insert( level.map )
     sceneGroup:insert( level.textDialog )
+    sceneGroup:insert( level.teleport )
 end
 
 function scene:show( event )
