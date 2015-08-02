@@ -10,6 +10,7 @@ function module.new()
 
     function self.inside( target, callback )
         self.x = target.x
+        self.y = 0
         self.isVisible = true
 
         transition.moveBy( self, {

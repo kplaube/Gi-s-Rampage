@@ -1,4 +1,4 @@
--- luacheck: globals audio display native timer transition onBarrelTap, ignore event self
+-- luacheck: globals audio display graphics native timer transition onBarrelTap, ignore event self
 -----------------------------------------------------------------------------------------
 --
 -- level4.lua
@@ -152,6 +152,38 @@ end
 
 function level.gameplayStart()
     level.politicsDead = 0
+    level.explosionImagesheet = graphics.newImageSheet(
+        "images/objects/explosion.png",
+        {
+            width=64,
+            height=64,
+            numFrames=16,
+
+            sheetContentWidth=256,
+            sheetContentHeight=256,
+        }
+    )
+    level.explosion = display.newSprite( level.explosionImagesheet, {
+        name="explode",
+        loopCount=0,
+        start=1,
+        count=16
+    } )
+    level.explosion.isVisible = false
+
+    function level.explosion:explode( x, y )
+        level.explosion.x = x
+        level.explosion.y = y
+        level.explosion.isVisible = true
+
+        level.explosion:setSequence( "explode" )
+        level.explosion:play()
+
+        timer.performWithDelay( 500, function ()
+            level.explosion:pause()
+            level.explosion.isVisible = false
+        end )
+    end
 
     level.map:addEventListener( "tap" , level.onMapTap )
 
@@ -163,6 +195,7 @@ end
 
 function level.onMapTap( event )
     level.gi:enableLasers()
+    level.explosion:explode( event.x, event.y )
     audio.play( level.shooting )
 end
 
