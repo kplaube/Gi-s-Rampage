@@ -7,8 +7,7 @@
 
 local composer = require( "composer" )
 local dusk = require( "Dusk.Dusk" )
-
-local blink = require( "libs.blink" )
+local Teleport = require( "libs.teleport" )
 local TextDialog = require( "libs.dialog" )
 local StartLevel = require( "libs.start-level" )
 
@@ -42,10 +41,7 @@ level.sceneDialogs = {
     }
 }
 
-function level:createMap()
-    display.setDefault("minTextureFilter", "nearest")
-    display.setDefault("magTextureFilter", "nearest")
-
+function level.createMap()
     local map = dusk.buildMap(
         "maps/level4.json",
         display.contentScaleX,
@@ -55,39 +51,36 @@ function level:createMap()
     map.anchorX, map.anchorY = 0, 0
     map.x, map.y = 0, 0
 
-    self.map = map
+    level.map = map
 end
 
-function level:createGiselli()
+function level.createGiselli()
     local gi = Giselli.new()
     gi.x, gi.y = 256, 96
     gi.isVisible = false
 
-    self.map.layer["characters"]:insert(gi)
-
-    self.gi = gi
+    level.map.layer["characters"]:insert(gi)
+    level.gi = gi
 end
 
-function level:createGuardian()
+function level.createGuardian()
     local guardian = Guardian.new()
     guardian.x, guardian.y = 224, 96
 
-    self.map.layer["characters"]:insert(guardian)
-
-    self.guardian = guardian
+    level.map.layer["characters"]:insert(guardian)
+    level.guardian = guardian
 end
 
-function level:createPriest()
+function level.createPriest()
     local priest = Priest.new()
     priest.x, priest.y = 288, 96
     priest.isVisible = false
 
-    self.map.layer["characters"]:insert(priest)
-
-    self.priest = priest
+    level.map.layer["characters"]:insert(priest)
+    level.priest = priest
 end
 
-function level:createPolitics()
+function level.createPolitics()
     local positions = {
         {16, 192},
         {16, 224},
@@ -96,29 +89,28 @@ function level:createPolitics()
         {460, 224},
         {460, 256},
     }
-    local politic
     level.politics = {}
 
     for i=1, table.getn(positions) do
-        politic = Politic.new(i)
+        local politic = Politic.new(i)
         politic.x = positions[i][1]
         politic.y = positions[i][2]
         politic:moveAround()
 
         table.insert(level.politics, politic)
-        self.map.layer["characters"]:insert(politic)
+        level.map.layer["characters"]:insert(politic)
     end
 end
 
-function level:setDialog( dialog, callback )
-    self.textDialog = TextDialog.new()
-    self.textDialog:setDialog( dialog, callback )
+function level.setDialog( dialog, callback )
+    level.textDialog = TextDialog.new()
+    level.textDialog:setDialog( dialog, callback )
 end
 
-function level:startLevel()
+function level.startLevel()
     timer.performWithDelay( 500, function()
-        blink.blinkScreen( function()
-            self.gi.isVisible = true
+        level.teleport.inside( level.gi, function()
+            level.gi.isVisible = true
             timer.performWithDelay( 250, level.beforeFirstDialog )
         end )
     end )
@@ -134,7 +126,7 @@ function level.beforeFirstDialog()
 end
 
 function level.onFirstDialogEnds()
-    blink.blinkScreen( function()
+    level.teleport.inside( level.priest, function()
         level.priest.isVisible = true
         timer.performWithDelay( 250, level.beforeSecondDialog )
     end )
@@ -144,13 +136,13 @@ function level.beforeSecondDialog()
     level.gi:turnRight()
 
     timer.performWithDelay( 500, function()
-        level:setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
+        level.setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
         level.textDialog:startDialog()
     end )
 end
 
 function level.onSecondDialogEnds()
-    blink.blinkScreen( function()
+    level.teleport.out( function()
         level.priest.isVisible = false
         level.startText:show()
         level.gi:turnDown()
@@ -202,7 +194,7 @@ function level.gameplayEnd()
         loops=-1
     } )
 
-    level:setDialog( level.sceneDialogs[3], level.onThirdDialogEnds )
+    level.setDialog( level.sceneDialogs[3], level.onThirdDialogEnds )
 
     timer.performWithDelay( 500, function()
         level.textDialog:startDialog()
@@ -210,7 +202,7 @@ function level.gameplayEnd()
 end
 
 function level.onThirdDialogEnds()
-    blink.blinkScreen(function()
+    level.teleport.out( function()
         level.gi.isVisible = false
 
         timer.performWithDelay( 500, level.endLevel )
@@ -226,26 +218,27 @@ end
 function scene:create( event )
     local sceneGroup = self.view
 
-    level:createMap()
-    level:createGiselli()
-    level:createGuardian()
-    level:createPriest()
-    level:createPolitics()
+    level.createMap()
+    level.createGiselli()
+    level.createGuardian()
+    level.createPriest()
+    level.createPolitics()
 
-    level.backgroundMusic = audio.loadStream( "musics/level4.mp3" )
-    level.victoryMusic = audio.loadStream( "musics/victory.mp3" )
-
-    level:setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
+    level.setDialog( level.sceneDialogs[1], level.onFirstDialogEnds )
     level.startText = StartLevel.new()
     level.startText:addEventListener( "hideText", level.gameplayStart )
     level:addEventListener( "endGameplay", level.gameplayEnd )
+    level.teleport = Teleport.new()
 
+    level.backgroundMusic = audio.loadStream( "musics/level4.mp3" )
+    level.victoryMusic = audio.loadStream( "musics/victory.mp3" )
     level.rightAnswerSound = audio.loadSound( "sounds/right.mp3" )
     level.shooting = audio.loadSound( "sounds/small-fire.mp3" )
 
     sceneGroup:insert( level.map )
     sceneGroup:insert( level.textDialog )
     sceneGroup:insert( level.startText )
+    sceneGroup:insert( level.teleport )
 end
 
 function scene:show( event )
@@ -260,7 +253,7 @@ function scene:show( event )
         loops=-1
     } )
 
-    level:startLevel()
+    level.startLevel()
 end
 
 function scene:hide( event )
@@ -272,19 +265,23 @@ function scene:hide( event )
 end
 
 function scene:destroy( event )
-    if level.backgroundMusic then
-        audio.dispose( level.backgroundMusic )
+    if level.victoryMusic then
         audio.dispose( level.victoryMusic )
     end
 
-    level.map = nil
-    level.gi = nil
-    level.textDialog = nil
-    level.startText = nil
-    level.backgroundMusic = nil
-    level.backgroundMusicChannel = nil
-    level.victoryMusic = nil
-    level.victoryMusicChannel = nil
+    if level.backgroundMusic then
+        audio.dispose( level.backgroundMusic )
+    end
+
+    if level.rightAnswerSound then
+        audio.dispose( level.rightAnswerSound )
+    end
+
+    if level.shooting then
+        audio.dispose( level.shooting )
+    end
+
+    level = nil
 end
 
 -----------------------------------------------------------------------------------------

@@ -34,6 +34,7 @@ function Politic.new(index)
         sequenceData = Politic.sequenceData
     }
     local self = Char.new(politic)
+    self.moveTime = 2000
 
     function self:moveAround()
         if self.x < 400 then

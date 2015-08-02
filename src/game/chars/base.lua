@@ -11,6 +11,7 @@ function Char.new(options)
         imageSheet,
         options.sequenceData
     )
+    self.moveTime = 1000
 
     function self:turnDown()
         self:setSequence( "walking-down" )
@@ -60,7 +61,7 @@ function Char.new(options)
         transition.moveTo( self, {
           x = deltaX,
           y = deltaY,
-          time = 1000,
+          time = self.moveTime,
           onComplete = function ()
               self:pause()
               self:setSequence( self.sequence )
