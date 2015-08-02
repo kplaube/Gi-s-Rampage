@@ -14,7 +14,7 @@ local Giselli = require( "game.chars.giselli" )
 local Fiance = require( "game.chars.fiance" )
 local Fury = require( "game.chars.fury" )
 
-local level = {}
+local level = display.newGroup()
 local scene = composer.newScene()
 
 level.sceneDialogs = {

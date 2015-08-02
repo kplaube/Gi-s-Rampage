@@ -16,7 +16,7 @@ local Guardian = require(  "game.chars.guardian2" )
 local Crowd = require( "game.chars.crowd" )
 
 local scene = composer.newScene()
-local level = {}
+local level = display.newGroup()
 
 -----------------------------------------------------------------------------------------
 

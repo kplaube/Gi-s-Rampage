@@ -15,7 +15,7 @@ local Giselli = require( "game.chars.giselli" )
 local Guardian = require(  "game.chars.guardian1" )
 
 local scene = composer.newScene()
-local level = {}
+local level = display.newGroup()
 
 -----------------------------------------------------------------------------------------
 
