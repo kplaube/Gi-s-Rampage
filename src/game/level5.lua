@@ -28,6 +28,13 @@ level.sceneDialogs = {
         "Guardião: Eu só permitirei que você prossiga se me ajudar com esse pudim.",
         "Guardião: Curiosamente, uma versão alternativa de você quem fez, e está muito bom!",
         "Guardião: Ajude-me levando-o ao ônibus."
+    },
+    [2] = {
+        "Guardião: Muito bem! Até parece que você já fez isso antes...",
+        "Guardião: Por gratidão te darei essa habilidade.",
+        "Giselli aprendeu sobre a filmografia do Hayao Miyazaki.",
+        "Guardião: Muito obrigado, e boa sorte.",
+        "Giselli passa as próximas semanas assistindo animações japonesas."
     }
 }
 
@@ -233,6 +240,24 @@ function level.gameplayEnd()
     level.guardian.x, level.guardian.y = 382, 236
     level.guardian:turnRight()
     level.gi:turnLeft()
+
+    level:setDialog( level.sceneDialogs[2], level.onSecondDialogEnds )
+
+    timer.performWithDelay( 500, function()
+        level.textDialog:startDialog()
+    end )
+end
+
+function level.onSecondDialogEnds()
+    blink.blinkScreen( function ()
+        level.gi.isVisible = false
+
+        timer.performWithDelay( 500, level.endLevel )
+    end )
+end
+
+function level.endLevel()
+    composer.gotoScene( "game.level6-intro", "fade", 500 )
 end
 
 -----------------------------------------------------------------------------------------
