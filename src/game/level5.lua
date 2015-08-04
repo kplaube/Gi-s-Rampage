@@ -83,12 +83,26 @@ end
 function level.createCrowd()
     local crowd = {
         {x=64, y=32},
-        {x=64, y=58},
-        {x=64, y=90},
+        {x=64, y=42},
+        {x=64, y=52},
+        {x=64, y=62},
+        {x=64, y=72},
+        {x=64, y=82},
+        {x=64, y=92},
+        {x=64, y=102},
+        {x=64, y=112},
         {x=64, y=122},
-        {x=64, y=154},
-        {x=64, y=186},
-        {x=64, y=218},
+        {x=64, y=132},
+        {x=64, y=142},
+        {x=64, y=152},
+        {x=64, y=162},
+        {x=64, y=172},
+        {x=64, y=182},
+        {x=64, y=192},
+        {x=64, y=202},
+        {x=64, y=212},
+        {x=64, y=222},
+        {x=64, y=232},
         {x=64, y=236},
 
         {x=98, y=186},
@@ -101,11 +115,26 @@ function level.createCrowd()
         {x=166, y=288},
 
         {x=200, y=86},
-        {x=200, y=122},
+        {x=200, y=90},
+        {x=200, y=100},
+        {x=200, y=110},
+        {x=200, y=120},
+        {x=200, y=130},
+        {x=200, y=140},
+        {x=200, y=150},
         {x=200, y=160},
-        {x=200, y=192},
-        {x=200, y=224},
-        {x=200, y=256},
+        {x=200, y=170},
+        {x=200, y=180},
+        {x=200, y=190},
+        {x=200, y=200},
+        {x=200, y=210},
+        {x=200, y=220},
+        {x=200, y=230},
+        {x=200, y=240},
+        {x=200, y=250},
+        {x=200, y=260},
+        {x=200, y=270},
+        {x=200, y=280},
         {x=200, y=288},
 
         {x=234, y=86},
@@ -157,10 +186,12 @@ function level.createCrowd()
         end
 
         level.map.layer["maze"]:insert(person)
-        physics.addBody( person, "static", {
+        physics.addBody( person, "kinematic", {
+            density=3.0,
             friction=0,
             bounce=1,
         } )
+        person.isFixedRotation = true
     end
 end
 
@@ -193,8 +224,6 @@ function level.gameplayStart()
 end
 
 function level.onCollision( event )
-    print( "collision" )
-
     if event.phase == "ended" then
         level.gi:stopMoving()
     end
