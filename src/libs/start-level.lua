@@ -24,7 +24,7 @@ function module.new()
         group, 0, 0, display.contentWidth, 80, 0)
 
     group.startText = display.newText{
-        font="Adventure",
+        font="PressStart2P",
         fontSize=32,
         text="Começar!",
         x=0,

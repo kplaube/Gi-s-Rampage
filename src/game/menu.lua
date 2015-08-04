@@ -30,8 +30,8 @@ function scene:create( event )
     level.background.x, level.background.y = 0, 0
 
     level.titleLogo = display.newText{
-        font="Adventure",
-        fontSize=64,
+        font="PressStart2P",
+        fontSize=32,
         text="Gi's Rampage",
         x=display.contentWidth * 0.5,
         y=100
@@ -42,7 +42,7 @@ function scene:create( event )
         font="PressStart2P",
         fontSize=16,
         label="Começar aventura!",
-        labelColor={ default={255}, over={128} },
+        labelColor={ default={255/255, 255/255, 255/255}, over={128/255, 128/255, 128/255} },
         onRelease=level.onPlayBtnRelease
     }
     level.playBtn.x = display.contentWidth * 0.5
