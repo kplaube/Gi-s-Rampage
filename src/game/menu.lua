@@ -38,15 +38,15 @@ function scene:create( event )
     }
     level.titleLogo:setFillColor( 254/255, 246/255, 81/255 )
 
-    level.playBtn = widget.newButton{
+
+    level.playBtn = display.newText{
         font="PressStart2P",
         fontSize=16,
-        label="Começar aventura!",
-        labelColor={ default={255/255, 255/255, 255/255}, over={128/255, 128/255, 128/255} },
-        onRelease=level.onPlayBtnRelease
+        text="Começar aventura!",
     }
     level.playBtn.x = display.contentWidth * 0.5
     level.playBtn.y = display.contentHeight - 125
+    level.playBtn:addEventListener( "tap", level.onPlayBtnRelease)
 
     level.backgroundMusic = audio.loadStream( "musics/menu.mp3" )
     level.backgroundMusicChannel = audio.play( level.backgroundMusic, {
