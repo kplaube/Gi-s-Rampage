@@ -66,7 +66,9 @@ function Char.new(options)
               self:pause()
               self:setSequence( self.sequence )
 
-              callback()
+              if callback then
+                  callback()
+              end
           end
         } )
     end

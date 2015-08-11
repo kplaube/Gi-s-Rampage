@@ -56,9 +56,7 @@ function level.createGuardian()
 
     level.map.layer["characters"]:insert(guardian)
     physics.addBody( guardian, "static", {
-        density=3.0,
-        friction=0.5,
-        bounce=0.3
+        density=3.0
     } )
 
     level.guardian = guardian
@@ -72,10 +70,10 @@ function level.createGiselli()
     level.map.layer["characters"]:insert(gi)
     physics.addBody( gi, "dynamic", {
         density=3.0,
-        friction=0,
-        bounce=0.3
+        bounce=10
     } )
     gi.isFixedRotation = true
+    gi:addEventListener( "preCollision", level.onCollision )
 
     level.gi = gi
 end
@@ -164,7 +162,29 @@ function level.createCrowd()
         {x=460, y=186},
         {x=450, y=288},
     }
+    local walls = {
+        {x=54, y=16, width=20, height=238},
+        {x=76, y=170, width=60, height=30},
+        {x=128, y=74, width=310, height=30},
+        {x=190, y=74, width=20, height=238},
+        {x=126, y=276, width=150, height=30},
+        {x=264, y=170, width=210, height=30},
+        {x=330, y=200, width=20, height=56},
+        {x=410, y=276, width=70, height=30},
+    }
     local j = 1
+
+    for i=1, table.getn(walls) do
+        local wall = display.newRect(
+            walls[i].x, walls[i].y, walls[i].width, walls[i].height
+        )
+        wall.anchorX, wall.anchorY = 0, 0
+        level.map.layer["maze"]:insert(wall)
+        physics.addBody( wall, "kinematic", {
+            density=3.0
+        } )
+        wall.isFixedRotation = true
+    end
 
     for i=1, table.getn(crowd) do
         if j >= 10 then
@@ -186,12 +206,6 @@ function level.createCrowd()
         end
 
         level.map.layer["maze"]:insert(person)
-        physics.addBody( person, "kinematic", {
-            density=3.0,
-            friction=0,
-            bounce=1,
-        } )
-        person.isFixedRotation = true
     end
 end
 
@@ -220,13 +234,22 @@ end
 
 function level.gameplayStart()
     level.map:addEventListener( "tap", level.onMapTap )
-    Runtime:addEventListener( "collision", level.onCollision )
 end
 
 function level.onCollision( event )
-    if event.phase == "ended" then
-        level.gi:stopMoving()
-    end
+    level.gi:stopMoving()
+
+    timer.performWithDelay(50, function()
+        if level.gi.sequence == 'walking-right' then
+            level.gi.x = level.gi.x - 1
+        elseif level.gi.sequence == 'walking-left' then
+            level.gi.x = level.gi.x + 1
+        elseif level.gi.sequence == "walking-up" then
+            level.gi.y = level.gi.y + 1
+        elseif level.gi.sequence == "walking-down" then
+            level.gi.y = level.gi.y - 1
+        end
+    end )
 end
 
 function level.onMapTap( event )
