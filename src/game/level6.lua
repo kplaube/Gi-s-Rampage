@@ -19,18 +19,17 @@ local scene = composer.newScene()
 
 level.sceneDialogs = {
     [1] = {
-        "Noivo: Endlich habe ich Dich gefunden!",
-        "Noivo: Espero que tenha gostado da aventura… essa aventura que começou há 1 ano atrás."
+        "Klaus: Endlich habe ich Dich gefunden!",
+        "Klaus: Espero que tenha gostado da aventura… essa aventura que começou há 1 ano atrás."
     },
     [2] = {
-        "Noivo: O que eu acho mais mágico sobre a gente, é que por mais diferentes que sejamos, por mais diferentes que nossos caminhos tenham sido (...)",
-        "Noivo: (...) terminaríamos juntos. Não há como discutir.",
-        "Noivo: Em todas as realidades, de todas as dimensões possíveis, quando trata-se da gente, o destino é inexorável.",
-        "Noivo: O universo se dobrará e fará com que terminemos juntos.",
-        "Noivo: Eu cruzaria as dimensões para te encontrar, mas graças a essa força superior, não precisei.",
-        "Noivo: Achei a pessoa mais fantástica do mundo, aqui mesmo, nessa realidade.",
-        "Noivo: Giselli Brasil dos Santos...",
-        "Noivo: Você quer casar comigo?"
+        "Klaus: O que eu acho mais mágico sobre a gente, é que por mais diferentes que sejamos, por mais diferentes que nossos caminhos tenham sido (...)",
+        "Klaus: (...) terminaríamos juntos. Não há como discutir.",
+        "Klaus: Em todas as realidades, de todas as dimensões possíveis, quando trata-se da gente, o destino é inexorável.",
+        "Klaus: O universo se dobrará e fará com que terminemos juntos.",
+        "Klaus: Eu cruzaria as dimensões para te encontrar, mas graças a essa força superior, não precisei.",
+        "Klaus: Achei a pessoa mais fantástica do mundo, aqui mesmo, nessa realidade.",
+        "Klaus: Giselli Brasil dos Santos... Você quer casar comigo?"
     },
     [3] = {
         "Fury: Finalmente te encontrei, Giselli!",

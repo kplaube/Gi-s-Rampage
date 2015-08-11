@@ -6,7 +6,6 @@
 -----------------------------------------------------------------------------------------
 
 local composer = require( "composer" )
-local widget = require( "widget" )
 
 local level = {}
 local scene = composer.newScene()
