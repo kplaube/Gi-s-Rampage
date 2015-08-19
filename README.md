@@ -4,4 +4,4 @@ In order make my proposal of wedding to the most wonderful woman on this world, 
 
 I'm not a "game maker", I'm just a Web Developer trying to learn a little bit more about this area. So, feel free to question, contribute and fix.
 
-![Screen Shot 2015-06-20 at 12.17.19 AM.png](https://bitbucket.org/repo/kzM97g/images/895266425-Screen%20Shot%202015-06-20%20at%2012.17.19%20AM.png)
+![Screen Shot 2015-06-20 at 12.17.19 AM.png](https://raw.githubusercontent.com/kplaube/Gi-s-Rampage/master/docs/screenshot.png)
